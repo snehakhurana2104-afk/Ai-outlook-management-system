@@ -1,0 +1,401 @@
+/* ===========================================================
+   AIReplyPrompts.css
+   PHASE 5 - PART 7
+   Smart AI Reply Prompt Suggestions
+=========================================================== */
+
+
+.ai-reply-prompts {
+
+    width: 100%;
+
+    background:
+        #111827;
+
+    border:
+
+        1px solid
+
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+    border-radius:
+
+        16px;
+
+    padding:
+
+        16px;
+
+    margin-top:
+
+        16px;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Header
+=========================================================== */
+
+
+.prompt-header {
+
+    display:
+
+        flex;
+
+    align-items:
+
+        center;
+
+    gap:
+
+        10px;
+
+    margin-bottom:
+
+        14px;
+
+    color:
+
+        #f9fafb;
+
+}
+
+
+
+.prompt-header svg {
+
+    color:
+
+        #60a5fa;
+
+}
+
+
+
+.prompt-header h3 {
+
+    margin:
+
+        0;
+
+    font-size:
+
+        15px;
+
+    font-weight:
+
+        600;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Prompt Grid
+=========================================================== */
+
+
+.prompt-grid {
+
+    display:
+
+        grid;
+
+
+    grid-template-columns:
+
+        repeat(
+            3,
+            1fr
+        );
+
+
+    gap:
+
+        12px;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Prompt Card
+=========================================================== */
+
+
+.prompt-card {
+
+    display:
+
+        flex;
+
+
+    align-items:
+
+        flex-start;
+
+
+    gap:
+
+        12px;
+
+
+    padding:
+
+        14px;
+
+
+    background:
+
+        #1f2937;
+
+
+    border:
+
+        1px solid
+
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+
+    border-radius:
+
+        12px;
+
+
+    color:
+
+        #f9fafb;
+
+
+    cursor:
+
+        pointer;
+
+
+    text-align:
+
+        left;
+
+
+    transition:
+
+        all 0.25s ease;
+
+}
+
+
+
+
+
+.prompt-card svg {
+
+    color:
+
+        #60a5fa;
+
+
+    flex-shrink:
+
+        0;
+
+
+    margin-top:
+
+        3px;
+
+}
+
+
+
+
+
+.prompt-card:hover {
+
+    transform:
+
+        translateY(
+            -2px
+        );
+
+
+    border-color:
+
+        #2563eb;
+
+
+    box-shadow:
+
+        0 8px 20px
+
+        rgba(
+            0,
+            0,
+            0,
+            0.25
+        );
+
+}
+
+
+
+
+
+.prompt-card:disabled {
+
+    opacity:
+
+        0.5;
+
+
+    cursor:
+
+        not-allowed;
+
+
+    transform:
+
+        none;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Text
+=========================================================== */
+
+
+.prompt-card h4 {
+
+    margin:
+
+        0 0 5px 0;
+
+
+    font-size:
+
+        14px;
+
+
+    font-weight:
+
+        600;
+
+
+    color:
+
+        #ffffff;
+
+}
+
+
+
+
+
+.prompt-card p {
+
+    margin:
+
+        0;
+
+
+    font-size:
+
+        12px;
+
+
+    line-height:
+
+        1.4;
+
+
+    color:
+
+        #9ca3af;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Responsive
+=========================================================== */
+
+
+@media(max-width:1024px){
+
+
+    .prompt-grid {
+
+        grid-template-columns:
+
+            repeat(
+                2,
+                1fr
+            );
+
+    }
+
+
+}
+
+
+
+
+
+@media(max-width:640px){
+
+
+    .ai-reply-prompts {
+
+        padding:
+
+            12px;
+
+    }
+
+
+
+    .prompt-grid {
+
+        grid-template-columns:
+
+            1fr;
+
+    }
+
+
+
+    .prompt-card {
+
+        padding:
+
+            12px;
+
+    }
+
+
+}

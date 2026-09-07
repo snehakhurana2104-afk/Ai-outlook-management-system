@@ -1,0 +1,291 @@
+/* =========================================================
+   AI OUTLOOK INTELLIGENCE
+   GLOBAL / RESET CSS
+   ========================================================= */
+
+/* -------------------------
+   ROOT RESET
+------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  background: #f5f7fb;
+  color: #0f172a;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  overflow-x: hidden;
+}
+
+/* -------------------------
+   REACT ROOT
+------------------------- */
+
+#root {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* -------------------------
+   MEDIA
+------------------------- */
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+img {
+  display: block;
+}
+
+/* -------------------------
+   FORM ELEMENTS
+------------------------- */
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* -------------------------
+   LINKS
+------------------------- */
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* -------------------------
+   HEADINGS / TEXT
+------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+}
+
+/* -------------------------
+   TABLE
+------------------------- */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* -------------------------
+   INPUT
+------------------------- */
+
+input,
+textarea,
+select {
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+/* -------------------------
+   SELECTION
+------------------------- */
+
+::selection {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+/* -------------------------
+   SCROLLBAR
+------------------------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* -------------------------
+   GLOBAL APP WRAPPER
+------------------------- */
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* -------------------------
+   COMMON PAGE WRAPPER
+------------------------- */
+
+.page-container {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* -------------------------
+   FLEX SAFETY
+------------------------- */
+
+/*
+   VERY IMPORTANT:
+
+   In flex layouts, children can otherwise
+   force the entire page wider than viewport.
+*/
+
+.flex-container,
+.main-content,
+.content-area,
+.page-content {
+  min-width: 0;
+}
+
+/* -------------------------
+   SPIN ANIMATION
+------------------------- */
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* -------------------------
+   FADE IN
+------------------------- */
+
+.fade-in {
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* -------------------------
+   RESPONSIVE
+------------------------- */
+
+@media (max-width: 1200px) {
+  body {
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    min-width: 320px;
+  }
+
+  #root {
+    min-width: 320px;
+  }
+}
+
+/* -------------------------
+   PRINT
+------------------------- */
+
+@media print {
+  body {
+    background: #ffffff;
+  }
+
+  .sidebar {
+    display: none !important;
+  }
+}

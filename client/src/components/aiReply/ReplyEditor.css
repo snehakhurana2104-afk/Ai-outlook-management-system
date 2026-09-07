@@ -1,0 +1,387 @@
+/* ===========================================================
+   ReplyEditor.css
+   PHASE 5 - PART 5
+   Enterprise AI Reply Editor
+=========================================================== */
+
+
+.reply-editor {
+
+    width: 100%;
+
+    background:
+        #111827;
+
+    border:
+
+        1px solid
+
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+    border-radius:
+
+        16px;
+
+    padding:
+
+        18px;
+
+    box-sizing:
+
+        border-box;
+
+    transition:
+
+        all 0.3s ease;
+
+}
+
+
+
+.reply-editor:hover {
+
+    border-color:
+
+        rgba(
+            37,
+            99,
+            235,
+            0.45
+        );
+
+}
+
+
+
+/* ===========================================================
+   Header
+=========================================================== */
+
+
+.reply-editor-header {
+
+    display:
+
+        flex;
+
+    align-items:
+
+        center;
+
+    justify-content:
+
+        space-between;
+
+    margin-bottom:
+
+        14px;
+
+}
+
+
+
+.editor-title {
+
+    display:
+
+        flex;
+
+    align-items:
+
+        center;
+
+    gap:
+
+        10px;
+
+    color:
+
+        #f9fafb;
+
+}
+
+
+
+.editor-title h4 {
+
+    margin:
+
+        0;
+
+    font-size:
+
+        15px;
+
+    font-weight:
+
+        600;
+
+}
+
+
+
+.editor-count {
+
+    font-size:
+
+        12px;
+
+    color:
+
+        #9ca3af;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Editor Body
+=========================================================== */
+
+
+.reply-editor-body {
+
+    display:
+
+        flex;
+
+    gap:
+
+        12px;
+
+    align-items:
+
+        flex-start;
+
+}
+
+
+
+.reply-editor-body svg {
+
+    margin-top:
+
+        14px;
+
+    color:
+
+        #60a5fa;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Text Area
+=========================================================== */
+
+
+.reply-editor textarea {
+
+    width:
+
+        100%;
+
+
+    min-height:
+
+        180px;
+
+
+    resize:
+
+        none;
+
+
+    overflow:
+
+        hidden;
+
+
+    background:
+
+        #1f2937;
+
+
+    color:
+
+        #f9fafb;
+
+
+    border:
+
+        1px solid
+
+        rgba(
+            255,
+            255,
+            255,
+            0.1
+        );
+
+
+    border-radius:
+
+        12px;
+
+
+    padding:
+
+        14px;
+
+
+    font-size:
+
+        14px;
+
+
+    line-height:
+
+        1.6;
+
+
+    outline:
+
+        none;
+
+
+    font-family:
+
+        inherit;
+
+
+    transition:
+
+        all 0.25s ease;
+
+}
+
+
+
+
+
+.reply-editor textarea::placeholder {
+
+    color:
+
+        #6b7280;
+
+}
+
+
+
+
+
+.reply-editor textarea:focus {
+
+    border-color:
+
+        #2563eb;
+
+
+    box-shadow:
+
+        0 0 0 3px
+
+        rgba(
+            37,
+            99,
+            235,
+            0.15
+        );
+
+}
+
+
+
+
+
+/* ===========================================================
+   Scrollbar
+=========================================================== */
+
+
+.reply-editor textarea::-webkit-scrollbar {
+
+    width:
+
+        6px;
+
+}
+
+
+
+.reply-editor textarea::-webkit-scrollbar-thumb {
+
+    background:
+
+        #374151;
+
+
+    border-radius:
+
+        10px;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Responsive
+=========================================================== */
+
+
+@media(max-width:768px){
+
+
+    .reply-editor {
+
+        padding:
+
+            14px;
+
+    }
+
+
+
+    .reply-editor-body {
+
+        flex-direction:
+
+            column;
+
+    }
+
+
+
+    .reply-editor-body svg {
+
+        display:
+
+            none;
+
+    }
+
+
+
+    .reply-editor textarea {
+
+        font-size:
+
+            13px;
+
+    }
+
+
+}

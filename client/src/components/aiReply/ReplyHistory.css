@@ -1,0 +1,623 @@
+/* ===========================================================
+   ReplyHistory.css
+   PHASE 5 - PART 8
+   Enterprise AI Reply History
+=========================================================== */
+
+
+.reply-history {
+
+    width: 100%;
+
+    margin-top: 18px;
+
+    background:
+
+        #111827;
+
+
+    border:
+
+        1px solid
+
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+
+    border-radius:
+
+        16px;
+
+
+    padding:
+
+        16px;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Empty State
+=========================================================== */
+
+
+.reply-history.empty {
+
+    display:
+
+        flex;
+
+
+    align-items:
+
+        center;
+
+
+    justify-content:
+
+        center;
+
+
+    gap:
+
+        10px;
+
+
+    color:
+
+        #9ca3af;
+
+
+    min-height:
+
+        100px;
+
+}
+
+
+
+
+
+.reply-history.empty svg {
+
+    color:
+
+        #60a5fa;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Header
+=========================================================== */
+
+
+.history-header {
+
+    display:
+
+        flex;
+
+
+    align-items:
+
+        center;
+
+
+    gap:
+
+        10px;
+
+
+    margin-bottom:
+
+        16px;
+
+
+    color:
+
+        #ffffff;
+
+}
+
+
+
+
+
+.history-header svg {
+
+    color:
+
+        #60a5fa;
+
+}
+
+
+
+
+
+.history-header h3 {
+
+    margin:
+
+        0;
+
+
+    font-size:
+
+        15px;
+
+
+    font-weight:
+
+        600;
+
+}
+
+
+
+
+
+/* ===========================================================
+   History List
+=========================================================== */
+
+
+.history-list {
+
+    display:
+
+        flex;
+
+
+    flex-direction:
+
+        column;
+
+
+    gap:
+
+        12px;
+
+}
+
+
+
+
+
+/* ===========================================================
+   History Card
+=========================================================== */
+
+
+.history-card {
+
+    background:
+
+        #1f2937;
+
+
+    border:
+
+        1px solid
+
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+
+    border-radius:
+
+        12px;
+
+
+    padding:
+
+        14px;
+
+
+    transition:
+
+        all 0.25s ease;
+
+}
+
+
+
+
+
+.history-card:hover {
+
+    border-color:
+
+        rgba(
+            37,
+            99,
+            235,
+            0.5
+        );
+
+
+    transform:
+
+        translateY(
+            -1px
+        );
+
+}
+
+
+
+
+
+/* ===========================================================
+   Meta
+=========================================================== */
+
+
+.history-meta {
+
+    display:
+
+        flex;
+
+
+    justify-content:
+
+        space-between;
+
+
+    margin-bottom:
+
+        10px;
+
+}
+
+
+
+
+
+.history-meta > div {
+
+    display:
+
+        flex;
+
+
+    align-items:
+
+        center;
+
+
+    gap:
+
+        12px;
+
+}
+
+
+
+
+
+.tone {
+
+    background:
+
+        rgba(
+            37,
+            99,
+            235,
+            0.15
+        );
+
+
+    color:
+
+        #93c5fd;
+
+
+    padding:
+
+        4px 10px;
+
+
+    border-radius:
+
+        20px;
+
+
+    font-size:
+
+        12px;
+
+
+}
+
+
+
+
+
+.time {
+
+    display:
+
+        flex;
+
+
+    align-items:
+
+        center;
+
+
+    gap:
+
+        5px;
+
+
+    color:
+
+        #9ca3af;
+
+
+    font-size:
+
+        12px;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Reply Text
+=========================================================== */
+
+
+.history-text {
+
+    margin:
+
+        0 0 14px 0;
+
+
+    color:
+
+        #e5e7eb;
+
+
+    font-size:
+
+        13px;
+
+
+    line-height:
+
+        1.6;
+
+
+    display:
+
+        -webkit-box;
+
+
+    
+
+
+    -webkit-box-orient:
+
+        vertical;
+
+
+    overflow:
+
+        hidden;
+
+}
+
+
+
+
+
+/* ===========================================================
+   Actions
+=========================================================== */
+
+
+.history-actions {
+
+    display:
+
+        flex;
+
+
+    gap:
+
+        8px;
+
+}
+
+
+
+
+
+.history-actions button {
+
+    display:
+
+        flex;
+
+
+    align-items:
+
+        center;
+
+
+    gap:
+
+        6px;
+
+
+    border:
+
+        none;
+
+
+    cursor:
+
+        pointer;
+
+
+    border-radius:
+
+        8px;
+
+
+    padding:
+
+        7px 12px;
+
+
+    font-size:
+
+        12px;
+
+
+    transition:
+
+        all 0.2s ease;
+
+}
+
+
+
+
+
+.restore-btn {
+
+    background:
+
+        #2563eb;
+
+
+    color:
+
+        #ffffff;
+
+}
+
+
+
+
+
+.restore-btn:hover {
+
+    background:
+
+        #1d4ed8;
+
+}
+
+
+
+
+
+.delete-btn {
+
+    background:
+
+        rgba(
+            239,
+            68,
+            68,
+            0.15
+        );
+
+
+    color:
+
+        #f87171;
+
+}
+
+
+
+
+
+.delete-btn:hover {
+
+    background:
+
+        rgba(
+            239,
+            68,
+            68,
+            0.25
+        );
+
+}
+
+
+
+
+
+/* ===========================================================
+   Responsive
+=========================================================== */
+
+
+@media(max-width:768px){
+
+
+    .reply-history {
+
+        padding:
+
+            12px;
+
+    }
+
+
+
+    .history-meta > div {
+
+        flex-direction:
+
+            column;
+
+
+        align-items:
+
+            flex-start;
+
+    }
+
+
+
+    .history-actions button {
+
+        flex:
+
+            1;
+
+        justify-content:
+
+            center;
+
+    }
+
+
+}

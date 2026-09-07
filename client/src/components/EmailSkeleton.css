@@ -1,0 +1,205 @@
+/* =========================================================
+   EmailSkeleton.css
+   Premium Enterprise Skeleton Loader
+========================================================= */
+
+.email-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.skeleton-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 120px 120px 130px;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 22px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  animation: skeletonFade 1.5s ease infinite alternate;
+}
+
+.skeleton-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    #e2e8f0 25%,
+    #f8fafc 50%,
+    #e2e8f0 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-line {
+  height: 12px;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    #e2e8f0 25%,
+    #f8fafc 50%,
+    #e2e8f0 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.skeleton-title {
+  width: 65%;
+  height: 15px;
+}
+
+.skeleton-text {
+  width: 40%;
+}
+
+.skeleton-badge {
+  width: 85px;
+  height: 32px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #e2e8f0 25%,
+    #f8fafc 50%,
+    #e2e8f0 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.skeleton-date {
+  width: 90px;
+  height: 12px;
+  border-radius: 8px;
+  background: linear-gradient(
+    90deg,
+    #e2e8f0 25%,
+    #f8fafc 50%,
+    #e2e8f0 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* =========================================================
+   Hover
+========================================================= */
+
+.skeleton-row:hover {
+  transform: translateY(-2px);
+  transition: .3s ease;
+  box-shadow: 0 8px 20px rgba(15,23,42,.08);
+}
+
+/* =========================================================
+   Animations
+========================================================= */
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes skeletonFade {
+  from {
+    opacity: .95;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   Dark Mode
+========================================================= */
+
+.dark .skeleton-row {
+  background: #111827;
+  border-color: #1f2937;
+}
+
+.dark .skeleton-avatar,
+.dark .skeleton-line,
+.dark .skeleton-badge,
+.dark .skeleton-date {
+  background: linear-gradient(
+    90deg,
+    #374151 25%,
+    #4b5563 50%,
+    #374151 75%
+  );
+  background-size: 400% 100%;
+}
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 992px) {
+  .skeleton-row {
+    grid-template-columns: 50px 1fr;
+    gap: 16px;
+  }
+
+  .skeleton-badge,
+  .skeleton-date {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .skeleton-row {
+    padding: 16px;
+  }
+
+  .skeleton-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .skeleton-title {
+    width: 80%;
+  }
+
+  .skeleton-text {
+    width: 55%;
+  }
+}
+
+@media (max-width: 480px) {
+  .skeleton-row {
+    grid-template-columns: 42px 1fr;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .skeleton-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .skeleton-title {
+    width: 90%;
+  }
+
+  .skeleton-text {
+    width: 65%;
+  }
+}

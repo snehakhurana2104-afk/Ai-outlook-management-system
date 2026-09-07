@@ -1,0 +1,802 @@
+.commitment-page {
+  min-height: 100%;
+  padding: 30px 38px 45px;
+  background: #f7f9fc;
+  color: #092d59;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.commitment-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.commitment-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: #7186a0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.commitment-header h1 {
+  margin: 0;
+  color: #082d5b;
+  font-size: 32px;
+  line-height: 1.1;
+}
+
+.commitment-header p {
+  margin: 8px 0 0;
+  color: #71859f;
+  font-size: 14px;
+}
+
+.commitment-refresh {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 17px;
+  border: 1px solid #d4e0ed;
+  border-radius: 9px;
+  background: #fff;
+  color: #2365c8;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.commitment-refresh:hover {
+  box-shadow: 0 8px 20px rgba(31, 74, 125, 0.08);
+}
+
+.commitment-refresh:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.commitment-spin {
+  animation: commitmentSpin 0.8s linear infinite;
+}
+
+.commitment-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.commitment-stat-card {
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 17px;
+  border: 1px solid #dce6f1;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(26, 61, 98, 0.04);
+}
+
+.commitment-stat-icon {
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  font-size: 19px;
+}
+
+.commitment-stat-icon.blue {
+  background: #edf4ff;
+  color: #2368d5;
+}
+
+.commitment-stat-icon.amber {
+  background: #fff5e5;
+  color: #d58b1b;
+}
+
+.commitment-stat-icon.red {
+  background: #fff0f0;
+  color: #d45d5d;
+}
+
+.commitment-stat-icon.green {
+  background: #eaf8f2;
+  color: #219467;
+}
+
+.commitment-stat-card span {
+  display: block;
+  color: #7489a3;
+  font-size: 12px;
+}
+
+.commitment-stat-card strong {
+  display: block;
+  margin-top: 2px;
+  color: #092d59;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.commitment-stat-card small {
+  display: block;
+  margin-top: 5px;
+  color: #8999ac;
+  font-size: 10px;
+}
+
+.commitment-focus {
+  min-height: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+  padding: 20px 24px;
+  border: 1px solid #d6e2ef;
+  border-radius: 14px;
+  background: linear-gradient(110deg, #fff, #f9fbff);
+  box-shadow: 0 6px 20px rgba(26, 61, 98, 0.04);
+}
+
+.focus-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #edf4ff;
+  color: #2368d5;
+  font-size: 21px;
+}
+
+.commitment-focus {
+  position: relative;
+}
+
+.commitment-focus > .focus-icon {
+  margin-right: auto;
+}
+
+.focus-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.focus-content span {
+  color: #7186a0;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+}
+
+.focus-content h2 {
+  margin: 4px 0 0;
+  color: #092d59;
+  font-size: 19px;
+}
+
+.focus-content p {
+  margin: 4px 0 0;
+  color: #7c8ea4;
+  font-size: 12px;
+}
+
+.focus-number {
+  min-width: 70px;
+  text-align: right;
+}
+
+.focus-number strong {
+  display: block;
+  color: #1761c7;
+  font-size: 35px;
+  line-height: 1;
+}
+
+.focus-number span {
+  color: #8999ac;
+  font-size: 11px;
+}
+
+.commitment-panel {
+  overflow: hidden;
+  border: 1px solid #d8e3ef;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 7px 23px rgba(26, 61, 98, 0.045);
+}
+
+.commitment-panel-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 21px 23px 17px;
+  border-bottom: 1px solid #edf1f5;
+}
+
+.commitment-panel-header > div > span {
+  color: #7186a0;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+}
+
+.commitment-panel-header h2 {
+  margin: 4px 0 0;
+  color: #092d59;
+  font-size: 20px;
+}
+
+.commitment-panel-header > strong {
+  color: #7e91a8;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.commitment-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 14px 23px;
+  border-bottom: 1px solid #edf1f5;
+  background: #fbfcfe;
+}
+
+.commitment-search {
+  width: 360px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 11px;
+  border: 1px solid #d7e2ee;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.commitment-search svg {
+  color: #8194aa;
+  flex: 0 0 auto;
+}
+
+.commitment-search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #193d67;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.commitment-search input::placeholder {
+  color: #99a7b7;
+}
+
+.commitment-filters {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.commitment-filters button {
+  padding: 8px 11px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #71859f;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.commitment-filters button:hover {
+  background: #f0f5fb;
+}
+
+.commitment-filters button.active {
+  border-color: #cdddf1;
+  background: #edf4ff;
+  color: #1d61c5;
+  font-weight: 700;
+}
+
+.commitment-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 23px 0;
+  padding: 12px 14px;
+  border: 1px solid #efcccc;
+  border-radius: 9px;
+  background: #fff6f6;
+  color: #b64e4e;
+}
+
+.commitment-error > svg {
+  flex: 0 0 auto;
+}
+
+.commitment-error div {
+  flex: 1;
+  min-width: 0;
+}
+
+.commitment-error strong,
+.commitment-error span {
+  display: block;
+}
+
+.commitment-error strong {
+  color: #7e4141;
+  font-size: 12px;
+}
+
+.commitment-error span {
+  margin-top: 3px;
+  color: #a46f6f;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+}
+
+.commitment-error button {
+  padding: 7px 11px;
+  border: 1px solid #ead5d5;
+  border-radius: 7px;
+  background: #fff;
+  color: #a25151;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.commitment-list {
+  width: 100%;
+}
+
+.commitment-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 23px;
+  border: 0;
+  border-bottom: 1px solid #edf1f5;
+  background: #fff;
+  color: inherit;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.commitment-row:last-child {
+  border-bottom: 0;
+}
+
+.commitment-row:hover {
+  background: #fbfcff;
+}
+
+.commitment-status-icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  font-size: 17px;
+}
+
+.commitment-status-icon.open {
+  background: #edf4ff;
+  color: #2869c7;
+}
+
+.commitment-status-icon.today {
+  background: #fff5e5;
+  color: #d58b1b;
+}
+
+.commitment-status-icon.overdue {
+  background: #fff0f0;
+  color: #d45d5d;
+}
+
+.commitment-status-icon.completed {
+  background: #eaf8f2;
+  color: #219467;
+}
+
+.commitment-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.commitment-title-line {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.commitment-title-line strong {
+  overflow: hidden;
+  color: #12385f;
+  font-size: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.commitment-status {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 7px;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.commitment-status.open {
+  background: #edf4ff;
+  color: #2869c7;
+}
+
+.commitment-status.today {
+  background: #fff5e5;
+  color: #b97817;
+}
+
+.commitment-status.overdue {
+  background: #fff0f0;
+  color: #c45151;
+}
+
+.commitment-status.completed {
+  background: #eaf8f2;
+  color: #208a61;
+}
+
+.commitment-main p {
+  overflow: hidden;
+  margin: 5px 0 0;
+  color: #8596aa;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.commitment-meta {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 8px;
+}
+
+.commitment-meta > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #8999ab;
+  font-size: 10px;
+}
+
+.commitment-meta > span:first-child svg {
+  font-size: 11px;
+}
+
+.priority {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 7px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.priority.high {
+  background: #fff0f0;
+  color: #c45151;
+}
+
+.priority.normal {
+  background: #f0f4f8;
+  color: #71859b;
+}
+
+.priority.low {
+  background: #eaf8f2;
+  color: #208a61;
+}
+
+.commitment-arrow {
+  flex: 0 0 auto;
+  color: #b0bdcb;
+  font-size: 17px;
+}
+
+.commitment-loading,
+.commitment-empty {
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.commitment-loading {
+  gap: 10px;
+  color: #7c8ea4;
+}
+
+.commitment-loading strong {
+  color: #47627f;
+  font-size: 13px;
+}
+
+.commitment-loading span {
+  color: #9aa8b8;
+  font-size: 10px;
+}
+
+.commitment-loader {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e3eaf2;
+  border-top-color: #2368d5;
+  border-radius: 50%;
+  animation: commitmentSpin 0.8s linear infinite;
+}
+
+.commitment-empty {
+  color: #8293a7;
+}
+
+.commitment-empty-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  background: #edf4ff;
+  color: #2368d5;
+  font-size: 21px;
+}
+
+.commitment-empty h3 {
+  margin: 0;
+  color: #163b65;
+  font-size: 18px;
+}
+
+.commitment-empty p {
+  margin: 5px 0 0;
+  color: #8293a7;
+  font-size: 11px;
+}
+
+.commitment-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(7, 24, 46, 0.42);
+  backdrop-filter: blur(4px);
+}
+
+.commitment-modal {
+  position: relative;
+  width: min(620px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 28px;
+  border: 1px solid #d7e2ee;
+  border-radius: 17px;
+  background: #fff;
+  box-shadow: 0 25px 70px rgba(8, 34, 67, 0.2);
+}
+
+.commitment-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dce5ee;
+  border-radius: 8px;
+  background: #fff;
+  color: #71859c;
+  cursor: pointer;
+}
+
+.commitment-modal-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 13px;
+  border-radius: 12px;
+  background: #edf4ff;
+  color: #2368d5;
+  font-size: 21px;
+}
+
+.commitment-modal-eyebrow {
+  color: #7186a0;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+}
+
+.commitment-modal h2 {
+  max-width: 520px;
+  margin: 5px 0 10px;
+  color: #092d59;
+  font-size: 25px;
+  line-height: 1.25;
+}
+
+.commitment-modal-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.commitment-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.commitment-detail-grid > div {
+  padding: 13px;
+  border: 1px solid #e1e8f0;
+  border-radius: 10px;
+  background: #fafbfd;
+}
+
+.commitment-detail-grid span {
+  display: block;
+  color: #8293a7;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.commitment-detail-grid strong {
+  display: block;
+  margin-top: 4px;
+  color: #173c65;
+  font-size: 13px;
+}
+
+.commitment-description {
+  margin-top: 22px;
+}
+
+.commitment-description > span {
+  color: #7186a0;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+}
+
+.commitment-description p {
+  margin: 8px 0 0;
+  padding: 14px;
+  border-radius: 11px;
+  background: #f8fafd;
+  color: #65788e;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+@keyframes commitmentSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1100px) {
+  .commitment-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .commitment-page {
+    padding: 24px 18px 35px;
+  }
+
+  .commitment-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .commitment-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .commitment-search {
+    width: 100%;
+  }
+
+  .commitment-filters {
+    flex-wrap: wrap;
+  }
+
+  .commitment-focus {
+    align-items: flex-start;
+  }
+
+  .focus-number {
+    min-width: 50px;
+  }
+}
+
+@media (max-width: 580px) {
+  .commitment-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .commitment-header h1 {
+    font-size: 28px;
+  }
+
+  .commitment-panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .commitment-row {
+    padding: 14px;
+  }
+
+  .commitment-title-line {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .commitment-modal {
+    padding: 20px;
+  }
+
+  .commitment-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}

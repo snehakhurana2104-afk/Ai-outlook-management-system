@@ -1,0 +1,248 @@
+:root {
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 78px;
+
+  --layout-bg: #f3f6fb;
+  --sidebar-bg: #ffffff;
+
+  --border-color: #e5eaf2;
+
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+
+  --blue: #2563eb;
+}
+
+/* =========================================================
+   APPLICATION SHELL
+========================================================= */
+
+.main-layout {
+  width: 100%;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 75% 0%,
+      rgba(37, 99, 235, 0.07),
+      transparent 30rem
+    ),
+    radial-gradient(
+      circle at 10% 100%,
+      rgba(99, 102, 241, 0.045),
+      transparent 28rem
+    ),
+    var(--layout-bg);
+
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.main-layout-sidebar {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  width: var(--sidebar-width);
+  height: 100vh;
+
+  z-index: 1200;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border-right: 1px solid rgba(15, 23, 42, 0.07);
+
+  box-shadow:
+    10px 0 40px rgba(15, 23, 42, 0.025);
+
+  overflow: hidden;
+
+  transition:
+    width 0.28s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* =========================================================
+   MAIN AREA
+========================================================= */
+
+.main-layout-main {
+  width: calc(100% - var(--sidebar-width));
+
+  min-width: 0;
+  min-height: 100vh;
+
+  margin-left: var(--sidebar-width);
+
+  display: flex;
+  flex-direction: column;
+
+  overflow-x: hidden;
+
+  transition:
+    width 0.28s ease,
+    margin-left 0.28s ease;
+}
+
+/* =========================================================
+   COLLAPSED SIDEBAR
+========================================================= */
+
+@media (min-width: 992px) {
+  .main-layout.sidebar-is-collapsed
+    .main-layout-sidebar {
+    width: var(--sidebar-collapsed-width);
+  }
+
+  .main-layout.sidebar-is-collapsed
+    .main-layout-main {
+    width: calc(100% - var(--sidebar-collapsed-width));
+
+    margin-left: var(--sidebar-collapsed-width);
+  }
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.main-layout-content {
+  flex: 1;
+
+  width: 100%;
+  min-width: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(248, 250, 252, 0.78),
+      rgba(243, 246, 251, 0.98)
+    );
+
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* =========================================================
+   CONTENT CONTAINER
+========================================================= */
+
+.main-layout-inner {
+  width: 100%;
+  max-width: 1800px;
+
+  min-width: 0;
+
+  margin: 0 auto;
+
+  padding: 24px 30px 48px;
+
+  box-sizing: border-box;
+
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   MOBILE OVERLAY
+========================================================= */
+
+.main-layout-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1100;
+
+  background: rgba(15, 23, 42, 0.48);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  animation: layoutOverlayIn 0.2s ease;
+}
+
+@keyframes layoutOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1200px) {
+  .main-layout-inner {
+    padding: 22px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 991px) {
+  .main-layout-sidebar {
+    width: 250px;
+
+    transform: translateX(-100%);
+
+    box-shadow:
+      16px 0 45px rgba(15, 23, 42, 0.18);
+  }
+
+  .main-layout-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .main-layout-sidebar.mobile-closed {
+    transform: translateX(-100%);
+  }
+
+  .main-layout-main {
+    width: 100%;
+
+    margin-left: 0;
+  }
+
+  .main-layout-inner {
+    padding: 18px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .main-layout-inner {
+    padding: 14px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL
+========================================================= */
+
+@media (max-width: 400px) {
+  .main-layout-sidebar {
+    width: 230px;
+  }
+
+  .main-layout-inner {
+    padding: 12px;
+  }
+}

@@ -1,0 +1,163 @@
+/**
+ * Global Responsive Styles
+ * CEO/Director Presentation - All Device Optimization
+ */
+
+/* ============================================
+   Mobile-First Approach
+   ============================================ */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  body {
+    font-size: 14px;
+  }
+  
+  table {
+    font-size: 13px;
+  }
+}
+
+/* Tablets & Small Desktops */
+@media (max-width: 768px) {
+  body {
+    font-size: 13px;
+  }
+  
+  h1 {
+    font-size: 20px !important;
+  }
+  
+  h2 {
+    font-size: 18px !important;
+  }
+  
+  table {
+    font-size: 12px;
+  }
+  
+  /* Hide non-essential columns on mobile */
+  .hide-on-mobile {
+    display: none;
+  }
+  
+  /* Stack layout on mobile */
+  .stack-mobile {
+    flex-direction: column;
+  }
+  
+  /* Full width buttons on mobile */
+  .btn-mobile {
+    width: 100%;
+  }
+}
+
+/* Mobile Phones */
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+  
+  h1 {
+    font-size: 16px !important;
+  }
+  
+  h2 {
+    font-size: 14px !important;
+  }
+  
+  table {
+    font-size: 11px;
+  }
+  
+  /* Reduce padding on mobile */
+  [style*="padding"]:not(.no-padding-reduce) {
+    padding: 8px 12px !important;
+  }
+  
+  /* Stack grid items */
+  [style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ============================================
+   Responsive Utilities
+   ============================================ */
+
+.responsive-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.responsive-table {
+  overflow-x: auto;
+}
+
+.responsive-grid {
+  display: grid;
+  grid-auto-flow: row;
+}
+
+.flex-responsive {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.text-center-mobile {
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .text-center-mobile {
+    text-align: center;
+  }
+}
+
+/* ============================================
+   Scrollbar Styling (for responsive tables)
+   ============================================ */
+
+.responsive-table::-webkit-scrollbar {
+  height: 6px;
+}
+
+.responsive-table::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.responsive-table::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.responsive-table::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #000;
+    padding: 8px;
+  }
+}

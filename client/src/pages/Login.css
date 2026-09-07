@@ -1,0 +1,1112 @@
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #f4f7fc;
+  color: #10264a;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.login-page *,
+.login-page *::before,
+.login-page *::after {
+  box-sizing: border-box;
+}
+
+.login-page button,
+.login-page input,
+.login-page textarea {
+  font-family: inherit;
+}
+
+.login-background {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.login-grid-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  background-image:
+    linear-gradient(rgba(28, 72, 130, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 72, 130, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.login-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(2px);
+}
+
+.login-orb-one {
+  width: 520px;
+  height: 520px;
+  left: -210px;
+  top: -190px;
+  background: rgba(74, 126, 207, 0.09);
+}
+
+.login-orb-two {
+  width: 460px;
+  height: 460px;
+  right: -160px;
+  bottom: -190px;
+  background: rgba(106, 75, 190, 0.08);
+}
+
+.login-orb-three {
+  width: 220px;
+  height: 220px;
+  left: 48%;
+  top: 18%;
+  background: rgba(66, 150, 190, 0.045);
+}
+
+.login-shell {
+  width: min(1380px, calc(100% - 56px));
+  min-height: calc(100vh - 56px);
+  margin: 28px auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(178, 195, 220, 0.75);
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow:
+    0 30px 80px rgba(32, 59, 100, 0.12),
+    0 8px 24px rgba(32, 59, 100, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.login-showcase {
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 42px 54px 30px;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.09), transparent 28%),
+    linear-gradient(145deg, #0d2345 0%, #112d55 48%, #173b69 100%);
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.login-showcase::before {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  right: -230px;
+  top: -210px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+.login-showcase::after {
+  content: "";
+  position: absolute;
+  width: 720px;
+  height: 720px;
+  left: -470px;
+  bottom: -450px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 50%;
+}
+
+.showcase-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.showcase-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ms-logo-large {
+  width: 46px;
+  height: 46px;
+  padding: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 3px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.ms-logo-large span,
+.button-ms-logo span,
+.mini-ms-logo i {
+  display: block;
+}
+
+.ms-red {
+  background: #f25022;
+}
+
+.ms-green {
+  background: #7fba00;
+}
+
+.ms-blue {
+  background: #00a4ef;
+}
+
+.ms-yellow {
+  background: #ffb900;
+}
+
+.showcase-brand-text h1 {
+  margin: 0;
+  font-size: 23px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.showcase-brand-text p {
+  margin: 6px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.brand-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.055);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #39d98a;
+  box-shadow: 0 0 0 4px rgba(57, 217, 138, 0.11);
+}
+
+.showcase-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 35px 0 25px;
+}
+
+.showcase-eyebrow,
+.login-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #7ea7db;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.showcase-eyebrow span {
+  width: 26px;
+  height: 1px;
+  background: #5d8fcf;
+}
+
+.showcase-heading {
+  margin-top: 16px;
+  max-width: 570px;
+}
+
+.showcase-heading h2 {
+  margin: 0;
+  font-size: clamp(42px, 4vw, 66px);
+  line-height: 0.99;
+  letter-spacing: -2.5px;
+  font-weight: 700;
+}
+
+.showcase-heading h2 span {
+  color: #78a9e6;
+}
+
+.showcase-heading p {
+  max-width: 510px;
+  margin: 22px 0 0;
+  color: rgba(255, 255, 255, 0.67);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.outlook-visual {
+  height: 255px;
+  margin-top: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visual-shadow {
+  position: absolute;
+  width: 270px;
+  height: 70px;
+  bottom: 30px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.28);
+  filter: blur(28px);
+}
+
+.visual-ring {
+  position: absolute;
+  border: 1px solid rgba(119, 166, 225, 0.19);
+  border-radius: 50%;
+}
+
+.visual-ring-one {
+  width: 270px;
+  height: 170px;
+}
+
+.visual-ring-two {
+  width: 330px;
+  height: 210px;
+  transform: rotate(-10deg);
+}
+
+.outlook-envelope {
+  width: 180px;
+  height: 136px;
+  position: relative;
+  transform: perspective(700px) rotateX(4deg) rotateY(-7deg);
+  z-index: 2;
+}
+
+.outlook-envelope-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 17px;
+  background: linear-gradient(145deg, #1f65b0, #123f78);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 24px 45px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+
+.outlook-card {
+  position: absolute;
+  width: 116px;
+  height: 92px;
+  left: 30px;
+  top: 22px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #ffffff;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+.outlook-letter {
+  width: 43px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: #0f65bd;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.outlook-card-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.outlook-card-lines span {
+  width: 28px;
+  height: 4px;
+  border-radius: 4px;
+  background: #dce7f5;
+}
+
+.outlook-card-lines span:nth-child(2) {
+  width: 22px;
+}
+
+.outlook-card-lines span:nth-child(3) {
+  width: 16px;
+}
+
+.outlook-envelope-front {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 62px;
+  border-radius: 0 0 17px 17px;
+  background: linear-gradient(160deg, rgba(30, 100, 176, 0.97), rgba(14, 59, 113, 0.98));
+  clip-path: polygon(0 25%, 50% 65%, 100% 25%, 100% 100%, 0 100%);
+  z-index: 4;
+}
+
+.visual-star {
+  position: absolute;
+  color: rgba(153, 195, 241, 0.75);
+  font-size: 16px;
+}
+
+.star-one {
+  top: 47px;
+  left: 28%;
+}
+
+.star-two {
+  right: 27%;
+  top: 73px;
+  font-size: 10px;
+}
+
+.star-three {
+  right: 21%;
+  bottom: 47px;
+  font-size: 13px;
+}
+
+.floating-data-card {
+  position: absolute;
+  min-width: 175px;
+  padding: 11px 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.075);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.floating-card-one {
+  left: 3%;
+  bottom: 26px;
+}
+
+.floating-card-two {
+  right: 3%;
+  top: 27px;
+}
+
+.floating-icon {
+  width: 31px;
+  height: 31px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: rgba(83, 153, 226, 0.18);
+  color: #9ac4f1;
+  font-size: 14px;
+}
+
+.floating-icon.purple {
+  background: rgba(154, 113, 230, 0.18);
+  color: #c5a8fa;
+}
+
+.floating-data-card strong {
+  display: block;
+  color: #ffffff;
+  font-size: 11px;
+}
+
+.floating-data-card span {
+  display: block;
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.49);
+  font-size: 9px;
+}
+
+.showcase-features {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.showcase-feature {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.feature-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #8fc0f4;
+  font-size: 12px;
+}
+
+.showcase-feature strong {
+  display: block;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 10px;
+}
+
+.showcase-feature span {
+  display: block;
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.43);
+  font-size: 9px;
+}
+
+.feature-separator {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.showcase-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 10px;
+}
+
+.footer-dot {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.login-panel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.login-panel-inner {
+  width: min(100%, 500px);
+  margin: auto;
+  padding: 54px 58px 35px;
+}
+
+.login-panel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 42px;
+}
+
+.secure-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: #f1f7f4;
+  border: 1px solid #dceee5;
+  color: #39735a;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.secure-badge span {
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #d8f1e4;
+  color: #30815b;
+  font-size: 9px;
+}
+
+.microsoft-mini-brand {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #65738a;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.mini-ms-logo {
+  width: 18px;
+  height: 18px;
+  padding: 2px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5px;
+}
+
+.mini-ms-logo i {
+  width: 100%;
+  height: 100%;
+}
+
+.login-heading {
+  max-width: 420px;
+}
+
+.login-eyebrow {
+  color: #6982a3;
+  font-size: 10px;
+  letter-spacing: 1.8px;
+}
+
+.login-heading h2 {
+  margin: 10px 0 13px;
+  color: #10284e;
+  font-size: 37px;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.heading-line {
+  width: 48px;
+  height: 3px;
+  border-radius: 5px;
+  background: #2e6db5;
+  margin-bottom: 17px;
+}
+
+.login-heading p {
+  margin: 0;
+  color: #738197;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.login-error {
+  margin-top: 25px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  border: 1px solid #f1d2d2;
+  border-radius: 12px;
+  background: #fff7f7;
+}
+
+.login-error-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fce1e1;
+  color: #c44747;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.login-error-content {
+  min-width: 0;
+}
+
+.login-error-content strong {
+  display: block;
+  color: #9b3535;
+  font-size: 12px;
+}
+
+.login-error-content p {
+  margin: 4px 0 0;
+  color: #a76868;
+  font-size: 11px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.login-action-area {
+  margin-top: 32px;
+}
+
+.microsoft-login-button {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 17px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  border: 0;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #1268bb, #0d4e94);
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow:
+    0 13px 25px rgba(21, 91, 157, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.microsoft-login-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+  box-shadow:
+    0 17px 30px rgba(21, 91, 157, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.microsoft-login-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.microsoft-login-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.button-ms-logo {
+  width: 29px;
+  height: 29px;
+  padding: 3px;
+  flex: 0 0 29px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.button-ms-logo span {
+  display: block;
+}
+
+.button-text {
+  flex: 1;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05px;
+}
+
+.button-arrow {
+  width: 27px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  font-size: 17px;
+}
+
+.button-spinner {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: loginSpin 0.8s linear infinite;
+}
+
+@keyframes loginSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-or {
+  margin: 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.login-or span {
+  flex: 1;
+  height: 1px;
+  background: #e5eaf1;
+}
+
+.login-or strong {
+  color: #a2adbc;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+}
+
+.login-security {
+  min-height: 69px;
+  padding: 12px 13px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border: 1px solid #e3eaf2;
+  border-radius: 12px;
+  background: #f9fbfd;
+}
+
+.security-icon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: #eef4fb;
+  font-size: 14px;
+}
+
+.security-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.security-content strong {
+  display: block;
+  color: #294364;
+  font-size: 11px;
+}
+
+.security-content p {
+  margin: 3px 0 0;
+  color: #8793a3;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.security-check {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #e3f5eb;
+  color: #31905e;
+  font-size: 10px;
+}
+
+.login-services {
+  margin-top: 31px;
+  padding-top: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  border-top: 1px solid #e8edf3;
+}
+
+.login-service {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #7b8798;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.service-icon,
+.service-outlook-icon,
+.graph-icon {
+  width: 21px;
+  height: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: #f0f4f8;
+  color: #5e7694;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.service-outlook-icon {
+  background: #eaf2fb;
+  color: #1766ad;
+  font-size: 12px;
+}
+
+.graph-icon {
+  background: #f2effb;
+  color: #7658b4;
+}
+
+.service-divider {
+  width: 1px;
+  height: 20px;
+  background: #e5eaf0;
+}
+
+.login-panel-footer {
+  min-height: 77px;
+  padding: 15px 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-top: 1px solid #e7ecf2;
+  background: #fbfcfe;
+}
+
+.footer-shield {
+  width: 27px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #edf7f1;
+  color: #36845a;
+  font-size: 12px;
+}
+
+.login-panel-footer strong {
+  display: block;
+  color: #56667c;
+  font-size: 10px;
+}
+
+.login-panel-footer span:not(.footer-shield) {
+  display: block;
+  margin-top: 2px;
+  color: #9aa5b3;
+  font-size: 9px;
+}
+
+@media (max-width: 1100px) {
+  .login-shell {
+    width: min(100% - 30px, 1050px);
+    min-height: calc(100vh - 30px);
+    margin: 15px auto;
+  }
+
+  .login-showcase {
+    padding: 35px 38px 25px;
+  }
+
+  .login-panel-inner {
+    padding: 42px 38px 30px;
+  }
+
+  .showcase-heading h2 {
+    font-size: 47px;
+  }
+
+  .floating-data-card {
+    min-width: 145px;
+  }
+}
+
+@media (max-width: 850px) {
+  .login-page {
+    overflow-y: auto;
+  }
+
+  .login-shell {
+    width: calc(100% - 24px);
+    min-height: auto;
+    margin: 12px auto;
+    grid-template-columns: 1fr;
+    border-radius: 22px;
+  }
+
+  .login-showcase {
+    min-height: 620px;
+  }
+
+  .login-panel {
+    min-height: 620px;
+  }
+
+  .showcase-heading h2 {
+    font-size: 48px;
+  }
+
+  .outlook-visual {
+    height: 220px;
+  }
+}
+
+@media (max-width: 600px) {
+  .login-shell {
+    width: calc(100% - 16px);
+    margin: 8px auto;
+    border-radius: 18px;
+  }
+
+  .login-showcase {
+    min-height: 560px;
+    padding: 25px 22px 22px;
+  }
+
+  .login-panel-inner {
+    padding: 30px 22px 25px;
+  }
+
+  .showcase-top {
+    align-items: flex-start;
+  }
+
+  .brand-status {
+    display: none;
+  }
+
+  .showcase-brand-text h1 {
+    font-size: 20px;
+  }
+
+  .showcase-heading {
+    margin-top: 25px;
+  }
+
+  .showcase-heading h2 {
+    font-size: 41px;
+    letter-spacing: -1.5px;
+  }
+
+  .showcase-heading p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .outlook-visual {
+    height: 215px;
+  }
+
+  .outlook-envelope {
+    transform: scale(0.82);
+  }
+
+  .floating-data-card {
+    display: none;
+  }
+
+  .showcase-features {
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .showcase-feature {
+    gap: 6px;
+  }
+
+  .feature-icon {
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+  }
+
+  .showcase-feature strong {
+    font-size: 8px;
+  }
+
+  .showcase-feature span {
+    font-size: 8px;
+  }
+
+  .feature-separator {
+    height: 23px;
+  }
+
+  .showcase-footer {
+    font-size: 8px;
+  }
+
+  .login-panel {
+    min-height: auto;
+  }
+
+  .login-panel-top {
+    margin-bottom: 30px;
+  }
+
+  .microsoft-mini-brand {
+    display: none;
+  }
+
+  .login-heading h2 {
+    font-size: 31px;
+  }
+
+  .login-heading p {
+    font-size: 13px;
+  }
+
+  .microsoft-login-button {
+    min-height: 55px;
+  }
+
+  .button-text {
+    font-size: 12px;
+  }
+
+  .login-services {
+    gap: 9px;
+  }
+
+  .login-service {
+    font-size: 8px;
+  }
+
+  .service-divider {
+    height: 17px;
+  }
+
+  .login-panel-footer {
+    padding: 13px 20px;
+  }
+}
+
+@media (max-width: 390px) {
+  .showcase-heading h2 {
+    font-size: 36px;
+  }
+
+  .showcase-features {
+    gap: 5px;
+  }
+
+  .feature-separator {
+    display: none;
+  }
+
+  .login-services {
+    flex-wrap: wrap;
+  }
+}

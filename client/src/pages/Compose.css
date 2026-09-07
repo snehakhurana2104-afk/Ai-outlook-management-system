@@ -1,0 +1,135 @@
+/* ==========================================
+   Compose Page
+========================================== */
+
+.compose-page {
+    min-height: 100vh;
+    background: #F8FAFC;
+    padding: 30px;
+}
+
+.compose-card {
+    max-width: 820px;
+    margin: auto;
+    background: #FFFFFF;
+    border-radius: 18px;
+    padding: 28px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 18px 40px rgba(15,23,42,.08);
+}
+
+.compose-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 8px;
+}
+
+.compose-subtitle {
+    color: #64748B;
+    font-size: 14px;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+.compose-group {
+    margin-bottom: 20px;
+}
+
+.compose-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.compose-input,
+.compose-textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #CBD5E1;
+    border-radius: 12px;
+    background: #F8FAFC;
+    color: #0F172A;
+    font-size: 15px;
+    outline: none;
+    transition: .3s;
+    box-sizing: border-box;
+}
+
+.compose-input:focus,
+.compose-textarea:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+}
+
+.compose-textarea {
+    min-height: 220px;
+    resize: vertical;
+}
+
+.compose-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+}
+
+.compose-btn {
+    padding: 12px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.compose-btn-primary {
+    border: none;
+    background: #2563EB;
+    color: #FFFFFF;
+}
+
+.compose-btn-primary:hover {
+    background: #1D4ED8;
+}
+
+.compose-btn-primary:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.compose-btn-secondary {
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    color: #334155;
+}
+
+.compose-btn-secondary:hover {
+    background: #F8FAFC;
+}
+
+@media (max-width:768px) {
+
+    .compose-page {
+        padding: 15px;
+    }
+
+    .compose-card {
+        padding: 20px;
+    }
+
+    .compose-title {
+        font-size: 24px;
+    }
+
+    .compose-actions {
+        flex-direction: column;
+    }
+
+    .compose-btn {
+        width: 100%;
+    }
+}

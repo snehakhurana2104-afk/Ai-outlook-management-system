@@ -1,0 +1,638 @@
+/* =========================================================
+   AI OUTLOOK
+   CEO PREMIUM KPI CARD
+========================================================= */
+
+.executive-kpi-card {
+  --kpi-accent: #2563eb;
+  --kpi-accent-dark: #1d4ed8;
+  --kpi-soft: #eff6ff;
+  --kpi-border: #dbeafe;
+  --kpi-glow: rgba(37, 99, 235, 0.16);
+
+  position: relative;
+
+  min-width: 0;
+
+  min-height: 172px;
+
+  padding: 21px 21px 18px;
+
+  box-sizing: border-box;
+
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(248, 250, 252, 0.94)
+    );
+
+  border: 1px solid #e5eaf1;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 8px 26px rgba(15, 23, 42, 0.045),
+    0 2px 5px rgba(15, 23, 42, 0.025);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+/* =========================================================
+   TOP ACCENT
+========================================================= */
+
+.kpi-top-accent {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--kpi-accent),
+      rgba(255, 255, 255, 0)
+    );
+
+  opacity: 0.9;
+}
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.executive-kpi-card:hover {
+  transform: translateY(-4px);
+
+  border-color: var(--kpi-border);
+
+  box-shadow:
+    0 20px 42px rgba(15, 23, 42, 0.085),
+    0 5px 12px rgba(15, 23, 42, 0.035);
+}
+
+.executive-kpi-card:hover
+  .kpi-icon-wrapper {
+  transform: translateY(-2px) scale(1.04);
+}
+
+.executive-kpi-card:hover
+  .kpi-background-glow {
+  opacity: 1;
+
+  transform: scale(1.08);
+}
+
+/* =========================================================
+   CLICKABLE
+========================================================= */
+
+.executive-kpi-clickable {
+  cursor: pointer;
+
+  user-select: none;
+}
+
+.executive-kpi-clickable:focus-visible {
+  outline: none;
+
+  border-color: var(--kpi-accent);
+
+  box-shadow:
+    0 0 0 4px var(--kpi-glow),
+    0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.executive-kpi-clickable:active {
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.kpi-header {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 14px;
+}
+
+.kpi-title-wrapper {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.kpi-title {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 12px;
+
+  line-height: 1.3;
+
+  font-weight: 650;
+
+  letter-spacing: -0.005em;
+}
+
+.kpi-badge {
+  padding: 3px 7px;
+
+  border-radius: 999px;
+
+  background: var(--kpi-soft);
+
+  color: var(--kpi-accent);
+
+  border: 1px solid var(--kpi-border);
+
+  font-size: 7px;
+
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: 0.07em;
+
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.kpi-icon-wrapper {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  transition:
+    transform 0.25s ease;
+}
+
+.kpi-icon-wrapper::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -6px;
+
+  border-radius: 15px;
+
+  background: var(--kpi-glow);
+
+  filter: blur(8px);
+
+  opacity: 0.55;
+}
+
+.kpi-icon {
+  position: relative;
+
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+
+  color: var(--kpi-accent);
+
+  background:
+    linear-gradient(
+      145deg,
+      var(--kpi-soft),
+      #ffffff
+    );
+
+  border: 1px solid var(--kpi-border);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* =========================================================
+   VALUE
+========================================================= */
+
+.kpi-value-row {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 4px;
+
+  margin-top: 21px;
+}
+
+.kpi-prefix {
+  color: #64748b;
+
+  font-size: 15px;
+
+  font-weight: 700;
+}
+
+.kpi-value {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 31px;
+
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: -0.045em;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.kpi-suffix {
+  color: #64748b;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+/* =========================================================
+   SUBTITLE
+========================================================= */
+
+.kpi-subtitle {
+  position: relative;
+
+  z-index: 2;
+
+  margin: 8px 0 0;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+
+  line-height: 1.35;
+
+  font-weight: 500;
+}
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.kpi-description {
+  position: relative;
+
+  z-index: 2;
+
+  margin: 7px 0 0;
+
+  color: #64748b;
+
+  font-size: 9px;
+
+  line-height: 1.4;
+
+  font-weight: 500;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.kpi-footer {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-top: auto;
+
+  padding-top: 15px;
+}
+
+.kpi-trend {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 5px 8px;
+
+  border-radius: 7px;
+
+  font-size: 9px;
+
+  line-height: 1;
+
+  font-weight: 750;
+}
+
+.trend-positive {
+  background: #f0fdf4;
+
+  color: #16a34a;
+}
+
+.trend-negative {
+  background: #fef2f2;
+
+  color: #dc2626;
+}
+
+.trend-neutral {
+  background: #f8fafc;
+
+  color: #64748b;
+}
+
+.kpi-period {
+  color: #94a3b8;
+
+  font-size: 8px;
+
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   BACKGROUND GLOW
+========================================================= */
+
+.kpi-background-glow {
+  position: absolute;
+
+  right: -65px;
+
+  bottom: -70px;
+
+  width: 170px;
+  height: 170px;
+
+  border-radius: 50%;
+
+  background: var(--kpi-glow);
+
+  filter: blur(2px);
+
+  opacity: 0.65;
+
+  transform: scale(1);
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   LOADING STATE
+========================================================= */
+
+.executive-kpi-loading {
+  pointer-events: none;
+}
+
+.kpi-skeleton {
+  position: relative;
+
+  overflow: hidden;
+
+  background: #e9eef5;
+
+  border-radius: 7px;
+}
+
+.kpi-skeleton::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 100%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.65),
+      transparent
+    );
+
+  animation:
+    kpi-skeleton-loading 1.35s infinite;
+}
+
+.kpi-skeleton-top {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+}
+
+.kpi-skeleton-title {
+  width: 95px;
+
+  height: 12px;
+}
+
+.kpi-skeleton-icon {
+  width: 45px;
+  height: 45px;
+
+  border-radius: 13px;
+}
+
+.kpi-skeleton-value {
+  width: 110px;
+
+  height: 31px;
+
+  margin-top: 22px;
+}
+
+.kpi-skeleton-subtitle {
+  width: 130px;
+
+  height: 9px;
+
+  margin-top: 10px;
+}
+
+@keyframes kpi-skeleton-loading {
+  100% {
+    left: 100%;
+  }
+}
+
+/* =========================================================
+   KPI GRID
+========================================================= */
+
+/*
+  Use this class around multiple KPI cards.
+
+  Example:
+
+  <div className="executive-kpi-grid">
+    <ExecutiveKPICards ... />
+    <ExecutiveKPICards ... />
+    <ExecutiveKPICards ... />
+    <ExecutiveKPICards ... />
+  </div>
+*/
+
+.executive-kpi-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+
+  width: 100%;
+}
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (max-width: 1350px) {
+  .executive-kpi-grid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+  }
+
+  .executive-kpi-card {
+    padding: 18px;
+  }
+
+  .kpi-value {
+    font-size: 28px;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+  .executive-kpi-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+  .executive-kpi-grid {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+  }
+
+  .executive-kpi-card {
+    min-height: 155px;
+
+    padding: 18px;
+  }
+
+  .kpi-value {
+    font-size: 29px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+  .executive-kpi-card {
+    min-height: 150px;
+
+    padding: 16px;
+  }
+
+  .kpi-icon {
+    width: 41px;
+    height: 41px;
+  }
+
+  .kpi-value {
+    font-size: 27px;
+  }
+
+  .kpi-period {
+    display: none;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .executive-kpi-card,
+  .kpi-icon-wrapper,
+  .kpi-background-glow {
+    transition: none;
+  }
+
+  .kpi-skeleton::after {
+    animation: none;
+  }
+}
