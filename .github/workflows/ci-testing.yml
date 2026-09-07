@@ -1,0 +1,50 @@
+name: Enterprise CI Quality & Testing Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  backend-tests:
+    name: Backend API & Service Tests (Node.js)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Server Dependencies
+        run: |
+          cd server
+          npm ci || npm install
+
+      - name: Run Backend Unit & API Integration Tests
+        run: |
+          cd server
+          npm test -- --coverage
+
+  frontend-tests:
+    name: Frontend React Component & Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Client Dependencies
+        run: |
+          cd client
+          npm ci || npm install --legacy-peer-deps
+
+      - name: Run Frontend Tests & Coverage
+        run: |
+          cd client
+          npm test -- --watchAll=false --coverage
