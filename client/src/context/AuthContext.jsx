@@ -105,6 +105,28 @@ const isInteractionError = (error) => {
   );
 };
 
+const isInteractionInProgressError = (error) => {
+  if (!error) {
+    return false;
+  }
+
+  const code = String(
+    error?.errorCode ||
+      error?.code ||
+      error?.name ||
+      ""
+  ).toLowerCase();
+
+  const message = String(
+    error?.message || ""
+  ).toLowerCase();
+
+  return (
+    code.includes("interaction_in_progress") ||
+    message.includes("interaction_in_progress")
+  );
+};
+
 const isUserCancellation = (error) => {
   if (!error) {
     return false;
@@ -220,6 +242,7 @@ export const AuthProvider = ({ children }) => {
   const loadingUserRef = useRef(false);
   const tokenRequestsRef = useRef(new Map());
   const connectRequestRef = useRef(null);
+  const loginRequestRef = useRef(null);
   const refreshTimerRef = useRef(null);
 
   const [loading, setLoading] =
@@ -262,6 +285,7 @@ export const AuthProvider = ({ children }) => {
 
       tokenRequestsRef.current.clear();
       connectRequestRef.current = null;
+      loginRequestRef.current = null;
       initializationRef.current = null;
     };
   }, []);
@@ -546,6 +570,13 @@ export const AuthProvider = ({ children }) => {
     } catch (loadError) {
       if (mountedRef.current) {
         if (
+          isInteractionInProgressError(
+            loadError
+          )
+        ) {
+          setConnectionStatus("connecting");
+          setError(null);
+        } else if (
           isInteractionError(
             loadError
           )
@@ -627,6 +658,13 @@ export const AuthProvider = ({ children }) => {
           }
         }
 
+        if (
+          inProgress !==
+          InteractionStatus.None
+        ) {
+          return null;
+        }
+
         const token =
           await acquireGraphTokenInteractively(
             "popup"
@@ -656,6 +694,21 @@ export const AuthProvider = ({ children }) => {
             setConnectionStatus(
               "disconnected"
             );
+          }
+
+          return null;
+        }
+
+        if (
+          isInteractionInProgressError(
+            connectError
+          )
+        ) {
+          if (mountedRef.current) {
+            setConnectionStatus(
+              "connecting"
+            );
+            setError(null);
           }
 
           return null;
@@ -694,6 +747,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async () => {
+    if (loginRequestRef.current) {
+      return loginRequestRef.current;
+    }
+
     if (
       inProgress !==
       InteractionStatus.None
@@ -701,70 +758,118 @@ export const AuthProvider = ({ children }) => {
       return null;
     }
 
-    try {
-      const currentAccount =
-        await getAccountSafe();
+    const request = (async () => {
+      try {
+        if (mountedRef.current) {
+          setConnectionStatus("connecting");
+          setError(null);
+        }
 
-      if (currentAccount) {
-        try {
-          const token =
-            await getToken({
-              scopes: BASE_GRAPH_SCOPES,
-              forceRefresh: false,
+        const currentAccount =
+          await getAccountSafe();
+
+        if (currentAccount) {
+          try {
+            const token =
+              await getToken({
+                scopes: BASE_GRAPH_SCOPES,
+                forceRefresh: false,
+              });
+
+            await loadUser({
+              silent: true,
             });
 
-          await loadUser({
-            silent: true,
-          });
-
-          return token;
-        } catch (
-          existingAccountError
-        ) {
-          if (
-            !isInteractionError(
-              existingAccountError
-            )
+            return token;
+          } catch (
+            existingAccountError
           ) {
-            throw existingAccountError;
+            if (
+              isInteractionInProgressError(
+                existingAccountError
+              )
+            ) {
+              return null;
+            }
+
+            if (
+              !isInteractionError(
+                existingAccountError
+              )
+            ) {
+              throw existingAccountError;
+            }
           }
         }
-      }
 
-      if (mountedRef.current) {
-        setConnectionStatus("connecting");
-        setError(null);
-      }
+        if (
+          inProgress !==
+          InteractionStatus.None
+        ) {
+          return null;
+        }
 
-      await instance.loginRedirect({
-        ...loginRequest,
-      });
+        await instance.loginRedirect({
+          ...loginRequest,
+        });
 
-      return null;
-    } catch (loginError) {
-      if (
-        isUserCancellation(
-          loginError
-        )
-      ) {
         return null;
-      }
+      } catch (loginError) {
+        if (
+          isUserCancellation(
+            loginError
+          )
+        ) {
+          if (mountedRef.current) {
+            setConnectionStatus(
+              "disconnected"
+            );
+            setError(null);
+          }
 
-      if (mountedRef.current) {
-        setConnectionStatus("error");
-        setError(
-          loginError?.message ||
-            "Microsoft login failed."
-        );
-      }
+          return null;
+        }
 
-      return null;
-    }
+        if (
+          isInteractionInProgressError(
+            loginError
+          )
+        ) {
+          if (mountedRef.current) {
+            setConnectionStatus(
+              "connecting"
+            );
+            setError(null);
+          }
+
+          return null;
+        }
+
+        if (mountedRef.current) {
+          setConnectionStatus("error");
+          setError(
+            loginError?.message ||
+              "Microsoft login failed."
+          );
+        }
+
+        return null;
+      } finally {
+        loginRequestRef.current =
+          null;
+      }
+    })();
+
+    loginRequestRef.current =
+      request;
+
+    return request;
   };
 
   const logout = async () => {
     tokenRequestsRef.current.clear();
     connectRequestRef.current = null;
+    loginRequestRef.current = null;
 
     if (refreshTimerRef.current) {
       clearInterval(
@@ -814,6 +919,13 @@ export const AuthProvider = ({ children }) => {
         return null;
       }
 
+      if (
+        inProgress !==
+        InteractionStatus.None
+      ) {
+        return null;
+      }
+
       const token =
         await getToken({
           scopes: BASE_GRAPH_SCOPES,
@@ -835,6 +947,14 @@ export const AuthProvider = ({ children }) => {
       return token;
     } catch (refreshError) {
       if (mountedRef.current) {
+        if (
+          isInteractionInProgressError(
+            refreshError
+          )
+        ) {
+          return null;
+        }
+
         if (
           isInteractionError(
             refreshError
@@ -926,6 +1046,15 @@ export const AuthProvider = ({ children }) => {
         ) {
           if (mountedRef.current) {
             if (
+              isInteractionInProgressError(
+                initializationError
+              )
+            ) {
+              setConnectionStatus(
+                "connecting"
+              );
+              setError(null);
+            } else if (
               isInteractionError(
                 initializationError
               )
@@ -1056,6 +1185,14 @@ export const AuthProvider = ({ children }) => {
           } catch (
             refreshError
           ) {
+            if (
+              isInteractionInProgressError(
+                refreshError
+              )
+            ) {
+              return;
+            }
+
             if (
               isInteractionError(
                 refreshError
