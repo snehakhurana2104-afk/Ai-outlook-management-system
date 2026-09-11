@@ -3,12 +3,12 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 
 import {
   AuthProvider,
-  useAuth
+  useAuth,
 } from "./context/AuthContext";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -26,6 +26,7 @@ import Compose from "./pages/Compose";
 
 import ExecutiveOverview from "./pages/ExecutiveOverview";
 import TeamsReport from "./pages/Teams Report";
+import MemberWorkReport from "./pages/MemberWorkReport";
 import FollowUpTracker from "./pages/FollowUpTracker";
 
 import "./styles/responsive.css";
@@ -105,7 +106,7 @@ const ExecutiveBriefing = () => {
 
 const AuthLoadingScreen = ({
   title = "Loading AI Outlook...",
-  subtitle = "Please wait"
+  subtitle = "Please wait",
 }) => {
   return (
     <div className="app-loading-screen">
@@ -218,7 +219,7 @@ const LoginRoute = () => {
   const {
     isAuthenticated,
     authReady,
-    loading
+    loading,
   } = useAuth();
 
   if (!authReady || loading) {
@@ -246,7 +247,7 @@ const RootRoute = () => {
   const {
     isAuthenticated,
     authReady,
-    loading
+    loading,
   } = useAuth();
 
   if (!authReady || loading) {
@@ -372,6 +373,15 @@ function App() {
             element={
               <ProtectedPage>
                 <TeamsReport />
+              </ProtectedPage>
+            }
+          />
+
+          <Route
+            path="/executive-intelligence/member/:memberName"
+            element={
+              <ProtectedPage>
+                <MemberWorkReport />
               </ProtectedPage>
             }
           />

@@ -1,19 +1,6 @@
-import React, {
-  memo,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-
-import {
-  FaBars,
-} from "react-icons/fa";
-
-import {
-  Wifi,
-  WifiOff,
-} from "lucide-react";
-
+import React, { memo, useEffect, useMemo, useState } from "react";
+import { FaBars } from "react-icons/fa";
+import { Wifi, WifiOff } from "lucide-react";
 import logo from "../assets/images/ssdn.png";
 import "./Navbar.css";
 
@@ -54,8 +41,6 @@ const Navbar = ({
 
   const isConnected = Boolean(graphConnected);
 
-  const connectionLabel = "Microsoft 365";
-
   const connectionDetail = isConnected
     ? "Live Outlook data"
     : connectionStatus || "Connection unavailable";
@@ -76,7 +61,7 @@ const Navbar = ({
           aria-label="Open navigation menu"
           title="Open navigation menu"
         >
-          <FaBars size={15} />
+          <FaBars size={16} />
         </button>
 
         <div className="navbar-brand">
@@ -92,10 +77,10 @@ const Navbar = ({
           <div className="navbar-heading">
             <div className="navbar-product-line">
               <span className="navbar-product-name">
-               OUTLOOK REPORT
+                OUTLOOK REPORT
               </span>
 
-            
+              
             </div>
 
            
@@ -113,22 +98,23 @@ const Navbar = ({
         >
           <div className="navbar-connection-icon">
             {isConnected ? (
-              <Wifi size={14} />
+              <Wifi size={16} strokeWidth={2} />
             ) : (
-              <WifiOff size={14} />
+              <WifiOff size={16} strokeWidth={2} />
             )}
           </div>
 
           <div className="navbar-connection-copy">
-            <strong>{connectionLabel}</strong>
-
+            <strong>Microsoft 365</strong>
             <span>{connectionDetail}</span>
           </div>
 
-          <span className="navbar-connection-status">
+          <div className="navbar-connection-status">
             <span className="connection-status-dot" />
-            {isConnected ? "Connected" : "Offline"}
-          </span>
+            <span>
+              {isConnected ? "Connected" : "Offline"}
+            </span>
+          </div>
         </div>
 
         <div className="navbar-divider" />
@@ -138,9 +124,7 @@ const Navbar = ({
             {formattedDate}
           </span>
 
-          <span className="datetime-separator">
-            •
-          </span>
+          <span className="datetime-separator">•</span>
 
           <span className="datetime-time">
             {formattedTime}

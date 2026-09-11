@@ -146,7 +146,9 @@ function getInitials(name) {
     return parts[0].substring(0, 2).toUpperCase();
   }
 
-  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+  return `${parts[0][0]}${
+    parts[parts.length - 1][0]
+  }`.toUpperCase();
 }
 
 function getEmailText(email) {
@@ -442,25 +444,6 @@ function getGreeting() {
   return "Good Evening";
 }
 
-function getImportance(email) {
-  const value = String(
-    email?.importance ||
-      email?.priority ||
-      email?.importanceLevel ||
-      ""
-  ).toLowerCase();
-
-  if (value === "high" || value === "urgent") {
-    return "High Priority";
-  }
-
-  if (value === "low") {
-    return "Low Priority";
-  }
-
-  return "";
-}
-
 function hasAttachment(email) {
   if (email?.hasAttachments === true) return true;
   if (email?.hasAttachment === true) return true;
@@ -611,7 +594,8 @@ function Dashboard() {
         sentRequest
       ];
 
-      const results = await Promise.allSettled(requests);
+      const results =
+        await Promise.allSettled(requests);
 
       const inboxResult = results[0];
       const metricsResult = results[1];
@@ -645,11 +629,13 @@ function Dashboard() {
       }
 
       if (metricsResult.status === "fulfilled") {
-        nextMetrics = metricsResult.value || {};
+        nextMetrics =
+          metricsResult.value || {};
       }
 
       if (profileResult.status === "fulfilled") {
-        nextProfile = profileResult.value || null;
+        nextProfile =
+          profileResult.value || null;
       }
 
       if (healthResult.status === "fulfilled") {
@@ -738,16 +724,6 @@ function Dashboard() {
 
   const sentCount = sentEmails.length;
 
-  const priorityCount = emails.filter(
-    (email) =>
-      String(
-        email?.importance ||
-          email?.priority ||
-          email?.importanceLevel ||
-          ""
-      ).toLowerCase() === "high"
-  ).length;
-
   const attachmentCount = emails.filter(
     hasAttachment
   ).length;
@@ -757,32 +733,30 @@ function Dashboard() {
     0
   );
 
-  const responseRate =
-    receivedCount + sentCount === 0
-      ? 0
-      : Math.round(
-          (sentCount /
-            (receivedCount + sentCount)) *
-            100
-        );
-
   const statusCounts = useMemo(
     () => ({
       "Pending Client": emails.filter(
         (email) =>
-          email.workStatus === "Pending Client"
+          email.workStatus ===
+          "Pending Client"
       ).length,
+
       "Pending Self": emails.filter(
         (email) =>
-          email.workStatus === "Pending Self"
+          email.workStatus ===
+          "Pending Self"
       ).length,
+
       "In Progress": emails.filter(
         (email) =>
-          email.workStatus === "In Progress"
+          email.workStatus ===
+          "In Progress"
       ).length,
+
       Complete: emails.filter(
         (email) =>
-          email.workStatus === "Complete"
+          email.workStatus ===
+          "Complete"
       ).length
     }),
     [emails]
@@ -793,7 +767,8 @@ function Dashboard() {
       ? emails
       : emails.filter(
           (email) =>
-            email.workStatus === selectedStatus
+            email.workStatus ===
+            selectedStatus
         );
 
   const displayName =
@@ -845,49 +820,7 @@ function Dashboard() {
           </p>
         </div>
 
-        <div className="dashboard-header-actions">
-          <div className="dashboard-date">
-            <span className="date-icon">
-              ▣
-            </span>
-
-            <span>
-              {formatLongDate(selectedDate)}
-            </span>
-          </div>
-
-          <div
-            className={`connection-pill ${
-              connected ? "online" : "offline"
-            }`}
-          >
-            <span />
-
-            {connected
-              ? "Connected"
-              : "Offline"}
-          </div>
-
-          <button
-            className="refresh-button"
-            onClick={() => loadDashboard(true)}
-            disabled={refreshing}
-          >
-            <span
-              className={
-                refreshing
-                  ? "refresh-spin"
-                  : ""
-              }
-            >
-              ↻
-            </span>
-
-            {refreshing
-              ? "Refreshing"
-              : "Refresh"}
-          </button>
-        </div>
+       
       </header>
 
       {error && (
@@ -905,7 +838,9 @@ function Dashboard() {
           </div>
 
           <button
-            onClick={() => loadDashboard(true)}
+            onClick={() =>
+              loadDashboard(true)
+            }
           >
             Retry
           </button>
@@ -920,8 +855,13 @@ function Dashboard() {
           }
         >
           <div className="kpi-top">
-            <span className="kpi-icon">✉</span>
-            <span className="kpi-arrow">↗</span>
+            <span className="kpi-icon">
+              ✉
+            </span>
+
+            <span className="kpi-arrow">
+              ↗
+            </span>
           </div>
 
           <strong>{receivedCount}</strong>
@@ -940,8 +880,13 @@ function Dashboard() {
           }
         >
           <div className="kpi-top">
-            <span className="kpi-icon">●</span>
-            <span className="kpi-arrow">↗</span>
+            <span className="kpi-icon">
+              ●
+            </span>
+
+            <span className="kpi-arrow">
+              ↗
+            </span>
           </div>
 
           <strong>{unreadCount}</strong>
@@ -955,8 +900,13 @@ function Dashboard() {
 
         <div className="kpi-card kpi-purple">
           <div className="kpi-top">
-            <span className="kpi-icon">➤</span>
-            <span className="kpi-arrow">↗</span>
+            <span className="kpi-icon">
+              ➤
+            </span>
+
+            <span className="kpi-arrow">
+              ↗
+            </span>
           </div>
 
           <strong>{sentCount}</strong>
@@ -968,25 +918,35 @@ function Dashboard() {
           </small>
         </div>
 
-        <div className="kpi-card kpi-red">
+        <div className="kpi-card kpi-green">
           <div className="kpi-top">
-            <span className="kpi-icon">!</span>
-            <span className="kpi-arrow">↗</span>
+            <span className="kpi-icon">
+              ✓
+            </span>
+
+            <span className="kpi-arrow">
+              ↗
+            </span>
           </div>
 
-          <strong>{priorityCount}</strong>
+          <strong>{readCount}</strong>
 
-          <span>Priority</span>
+          <span>Read Emails</span>
 
           <small>
-            High importance emails today
+            Emails already reviewed today
           </small>
         </div>
 
-        <div className="kpi-card kpi-green">
+        <div className="kpi-card kpi-teal">
           <div className="kpi-top">
-            <span className="kpi-icon">⌁</span>
-            <span className="kpi-arrow">↗</span>
+            <span className="kpi-icon">
+              ⌁
+            </span>
+
+            <span className="kpi-arrow">
+              ↗
+            </span>
           </div>
 
           <strong>{attachmentCount}</strong>
@@ -995,21 +955,6 @@ function Dashboard() {
 
           <small>
             Emails with attachments today
-          </small>
-        </div>
-
-        <div className="kpi-card kpi-teal">
-          <div className="kpi-top">
-            <span className="kpi-icon">%</span>
-            <span className="kpi-arrow">↗</span>
-          </div>
-
-          <strong>{responseRate}%</strong>
-
-          <span>Response Rate</span>
-
-          <small>
-            Today’s communication ratio
           </small>
         </div>
       </section>
@@ -1179,9 +1124,6 @@ function Dashboard() {
                 const status =
                   email.workStatus;
 
-                const importance =
-                  getImportance(email);
-
                 const attachment =
                   getAttachmentText(email);
 
@@ -1216,12 +1158,6 @@ function Dashboard() {
                         {unread && (
                           <span className="new-badge">
                             NEW
-                          </span>
-                        )}
-
-                        {importance && (
-                          <span className="email-mini-badge priority">
-                            {importance}
                           </span>
                         )}
 
@@ -1292,7 +1228,10 @@ function Dashboard() {
       <footer className="dashboard-footer">
         <div>
           <span className="footer-dot" />
-          <span>Microsoft Outlook</span>
+
+          <span>
+            Microsoft Outlook
+          </span>
         </div>
 
         <span>
@@ -1407,16 +1346,6 @@ function Dashboard() {
               </div>
 
               <div>
-                <span>Importance</span>
-
-                <strong>
-                  {selectedEmail.importance ||
-                    selectedEmail.priority ||
-                    "Normal"}
-                </strong>
-              </div>
-
-              <div>
                 <span>Attachments</span>
 
                 <strong>
@@ -1443,7 +1372,9 @@ function Dashboard() {
 
             {selectedEmail.webLink && (
               <a
-                href={selectedEmail.webLink}
+                href={
+                  selectedEmail.webLink
+                }
                 target="_blank"
                 rel="noreferrer"
                 className="open-outlook-button"

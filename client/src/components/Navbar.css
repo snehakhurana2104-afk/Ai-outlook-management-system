@@ -1,63 +1,62 @@
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 274px;
-  right: 0;
-  height: 82px;
-  z-index: 900;
+  z-index: 1000;
+  width: 100%;
+  height: 74px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px 0 30px;
-  box-sizing: border-box;
-  background:
-    radial-gradient(
-      circle at 8% 0%,
-      rgba(24, 166, 220, 0.07),
-      transparent 28%
-    ),
-    linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #fbfdff 100%
-    );
-  border-bottom: 1px solid #dce5ef;
-  box-shadow: 0 5px 22px rgba(16, 24, 40, 0.045);
+  padding: 0 26px;
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid #e6edf3;
+  box-shadow: 0 3px 16px rgba(15, 23, 42, 0.045);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   font-family: "Times New Roman", Times, serif;
-  transition: left 0.28s ease;
+  box-sizing: border-box;
+}
+
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
 }
 
 .navbar-left {
   min-width: 0;
-  display: flex;
-  align-items: center;
+}
+
+.navbar-right {
+  gap: 20px;
 }
 
 .mobile-menu-btn {
   width: 38px;
   height: 38px;
-  margin-right: 15px;
   display: none;
   align-items: center;
   justify-content: center;
-  border: 1px solid #dce6ef;
-  border-radius: 10px;
+  border: 1px solid #dce6ed;
+  border-radius: 9px;
   background: #ffffff;
-  color: #52657a;
+  color: #263746;
   cursor: pointer;
-  box-shadow: 0 3px 10px rgba(16, 24, 40, 0.055);
   transition:
-    color 0.2s ease,
     background 0.2s ease,
     border-color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .mobile-menu-btn:hover {
-  color: #ffffff;
-  background: #18a6dc;
-  border-color: #18a6dc;
-  transform: translateY(-1px);
+  background: #f4fbfe;
+  border-color: #b9dfea;
+  box-shadow: 0 4px 12px rgba(24, 166, 220, 0.1);
+}
+
+.mobile-menu-btn:active {
+  transform: scale(0.96);
 }
 
 .navbar-brand {
@@ -70,46 +69,44 @@
 .navbar-brand-mark {
   width: 40px;
   height: 40px;
-  flex: 0 0 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #dce7f0;
-  border-radius: 11px;
-  background: #ffffff;
-  box-shadow: 0 4px 13px rgba(16, 24, 40, 0.06);
+  border: 1px solid #dcebf1;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #ffffff, #f2f9fc);
+  box-shadow:
+    0 4px 12px rgba(24, 166, 220, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .navbar-brand-logo {
-  width: 22px;
-  height: 22px;
+  width: 23px;
+  height: 23px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
   gap: 2px;
-  transform: rotate(45deg);
 }
 
 .brand-square {
   display: block;
-  border-radius: 2px;
-  background: #18a6dc;
+  border-radius: 1.5px;
 }
 
 .brand-square-one {
-  opacity: 1;
+  background: #f25022;
 }
 
 .brand-square-two {
-  opacity: 0.72;
+  background: #7fba00;
 }
 
 .brand-square-three {
-  opacity: 0.58;
+  background: #00a4ef;
 }
 
 .brand-square-four {
-  opacity: 0.88;
+  background: #ffb900;
 }
 
 .navbar-heading {
@@ -120,112 +117,121 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  min-width: 0;
+  line-height: 1;
 }
 
 .navbar-product-name {
-  color: #101828;
-  font-size: 21px;
+  color: #17212b;
+  font-size: 16px;
   font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.25px;
+  letter-spacing: 0.55px;
   white-space: nowrap;
 }
 
 .navbar-product-badge {
-  padding: 4px 8px;
-  border: 1px solid rgba(24, 166, 220, 0.22);
-  border-radius: 6px;
-  color: #087aa9;
-  background: rgba(24, 166, 220, 0.07);
-  font-family: Arial, sans-serif;
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: 0.75px;
-  line-height: 1;
-  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  height: 19px;
+  padding: 0 7px;
+  border: 1px solid #bfe4ef;
+  border-radius: 5px;
+  background: #effaff;
+  color: #168bb6;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
 }
 
 .navbar-subtitle {
-  margin: 4px 0 0;
-  color: #718096;
+  margin: 6px 0 0;
+  color: #71808c;
   font-size: 12px;
-  line-height: 1.2;
-  letter-spacing: 0.15px;
-}
-
-.navbar-right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 17px;
-  min-width: 0;
+  line-height: 1;
+  letter-spacing: 0.2px;
 }
 
 .navbar-connection {
-  min-height: 45px;
+  min-width: 222px;
+  min-height: 43px;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 7px 11px;
+  padding: 6px 11px;
+  border: 1px solid #e2eaf0;
+  border-radius: 9px;
+  background: #fbfdfe;
   box-sizing: border-box;
-  border: 1px solid #dce6ef;
-  border-radius: 11px;
-  background: #ffffff;
-  box-shadow: 0 3px 12px rgba(16, 24, 40, 0.045);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.navbar-connection:hover {
+  border-color: #cddfe7;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.connection-online {
+  background: #fbfefe;
+}
+
+.connection-offline {
+  background: #fffafa;
+  border-color: #f0dddd;
 }
 
 .navbar-connection-icon {
-  width: 28px;
-  height: 28px;
-  flex: 0 0 28px;
+  width: 29px;
+  height: 29px;
+  flex: 0 0 29px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 7px;
 }
 
 .connection-online .navbar-connection-icon {
-  color: #0b8b61;
-  background: rgba(16, 185, 129, 0.09);
+  background: #eaf8fc;
+  color: #18a6dc;
 }
 
 .connection-offline .navbar-connection-icon {
-  color: #c2410c;
-  background: rgba(249, 115, 22, 0.09);
+  background: #fff0f0;
+  color: #c75c5c;
 }
 
 .navbar-connection-copy {
-  min-width: 112px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
 .navbar-connection-copy strong {
-  color: #1d2939;
-  font-size: 13px;
+  color: #25333f;
+  font-size: 12px;
   font-weight: 700;
-  line-height: 1.1;
+  white-space: nowrap;
 }
 
 .navbar-connection-copy span {
+  max-width: 112px;
   overflow: hidden;
-  color: #7b8798;
+  color: #788793;
   font-size: 10px;
-  line-height: 1.1;
-  white-space: nowrap;
+  line-height: 1.2;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .navbar-connection-status {
-  display: inline-flex;
+  margin-left: auto;
+  display: flex;
   align-items: center;
   gap: 5px;
-  padding-left: 8px;
-  color: #52657a;
-  font-family: Arial, sans-serif;
-  font-size: 9px;
+  color: #657682;
+  font-size: 10px;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -233,79 +239,66 @@
 .connection-status-dot {
   width: 6px;
   height: 6px;
-  display: block;
+  display: inline-block;
   border-radius: 50%;
 }
 
 .connection-online .connection-status-dot {
-  background: #12b76a;
-  box-shadow: 0 0 0 4px rgba(18, 183, 106, 0.09);
+  background: #20b486;
+  box-shadow: 0 0 0 3px rgba(32, 180, 134, 0.1);
 }
 
 .connection-offline .connection-status-dot {
-  background: #f04438;
-  box-shadow: 0 0 0 4px rgba(240, 68, 56, 0.08);
+  background: #d35c5c;
+  box-shadow: 0 0 0 3px rgba(211, 92, 92, 0.1);
 }
 
 .navbar-divider {
   width: 1px;
   height: 34px;
-  background: #e2e8f0;
+  background: #e2e9ee;
 }
 
 .navbar-datetime {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   white-space: nowrap;
 }
 
 .datetime-date {
-  color: #66768a;
-  font-size: 13px;
+  color: #52636f;
+  font-size: 12px;
   font-weight: 600;
 }
 
 .datetime-separator {
-  color: #18a6dc;
-  font-size: 13px;
+  color: #aab6be;
+  font-size: 11px;
 }
 
 .datetime-time {
-  color: #101828;
-  font-size: 13px;
+  color: #182630;
+  font-size: 12px;
   font-weight: 700;
-  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.15px;
 }
 
 .navbar-logo-wrapper {
-  width: 46px;
-  height: 46px;
-  flex: 0 0 46px;
+  width: 43px;
+  height: 43px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  box-sizing: border-box;
-  border: 1px solid #d8e4ee;
-  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid #dce6ec;
+  border-radius: 10px;
   background: #ffffff;
   box-shadow:
-    0 5px 16px rgba(16, 24, 40, 0.075),
-    0 0 0 4px rgba(24, 166, 220, 0.035);
-  cursor: default;
-  transition:
-    transform 0.22s ease,
-    box-shadow 0.22s ease,
-    border-color 0.22s ease;
-}
-
-.navbar-logo-wrapper:hover {
-  transform: translateY(-1px);
-  border-color: rgba(24, 166, 220, 0.32);
-  box-shadow:
-    0 8px 20px rgba(16, 24, 40, 0.1),
-    0 0 0 5px rgba(24, 166, 220, 0.055);
+    0 3px 10px rgba(15, 23, 42, 0.045),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .navbar-logo-image {
@@ -313,98 +306,19 @@
   height: 100%;
   display: block;
   object-fit: contain;
-  padding: 4px;
-  box-sizing: border-box;
 }
 
 @media (max-width: 1200px) {
   .navbar {
-    left: 250px;
-    padding: 0 20px 0 24px;
+    padding: 0 20px;
   }
 
   .navbar-right {
-    gap: 12px;
-  }
-
-  .navbar-connection-copy {
-    min-width: 95px;
-  }
-
-  .datetime-date {
-    font-size: 12px;
-  }
-
-  .navbar-product-name {
-    font-size: 19px;
-  }
-}
-
-@media (max-width: 1000px) {
-  .navbar {
-    left: 78px;
-  }
-
-  .navbar-connection-copy {
-    display: none;
+    gap: 13px;
   }
 
   .navbar-connection {
-    padding: 7px 9px;
-  }
-
-  .navbar-connection-status {
-    padding-left: 2px;
-  }
-
-  .navbar-divider {
-    display: none;
-  }
-}
-
-@media (max-width: 760px) {
-  .navbar {
-    left: 76px;
-    height: 72px;
-    padding: 0 14px;
-  }
-
-  .mobile-menu-btn {
-    display: flex;
-  }
-
-  .navbar-brand-mark {
-    width: 35px;
-    height: 35px;
-    flex-basis: 35px;
-  }
-
-  .navbar-brand-logo {
-    width: 19px;
-    height: 19px;
-  }
-
-  .navbar-product-name {
-    font-size: 17px;
-  }
-
-  .navbar-product-badge,
-  .navbar-subtitle {
-    display: none;
-  }
-
-  .navbar-connection {
-    min-height: 38px;
-  }
-
-  .navbar-connection-icon {
-    width: 25px;
-    height: 25px;
-    flex-basis: 25px;
-  }
-
-  .navbar-connection-status {
-    display: none;
+    min-width: 205px;
   }
 
   .datetime-date {
@@ -414,30 +328,75 @@
   .datetime-separator {
     display: none;
   }
-
-  .datetime-time {
-    font-size: 11px;
-  }
-
-  .navbar-logo-wrapper {
-    width: 39px;
-    height: 39px;
-    flex-basis: 39px;
-    border-radius: 10px;
-  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 992px) {
   .navbar {
-    left: 68px;
-    height: 66px;
-    padding: 0 9px;
+    height: 68px;
+    padding: 0 16px;
   }
 
   .mobile-menu-btn {
-    width: 33px;
-    height: 33px;
-    margin-right: 9px;
+    display: flex;
+    margin-right: 11px;
+  }
+
+  .navbar-brand-mark {
+    width: 36px;
+    height: 36px;
+  }
+
+  .navbar-brand-logo {
+    width: 21px;
+    height: 21px;
+  }
+
+  .navbar-product-name {
+    font-size: 14px;
+  }
+
+  .navbar-subtitle {
+    font-size: 11px;
+  }
+
+  .navbar-connection {
+    min-width: auto;
+    padding: 5px 8px;
+  }
+
+  .navbar-connection-copy {
+    display: none;
+  }
+
+  .navbar-connection-status {
+    margin-left: 0;
+  }
+
+  .navbar-divider {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .navbar {
+    padding: 0 12px;
+  }
+
+  .navbar-right {
+    gap: 8px;
+  }
+
+  .navbar-product-badge {
+    display: none;
+  }
+
+  .navbar-subtitle {
+    display: none;
+  }
+
+  .navbar-product-name {
+    font-size: 13px;
+    letter-spacing: 0.35px;
   }
 
   .navbar-brand {
@@ -445,44 +404,63 @@
   }
 
   .navbar-brand-mark {
-    display: none;
-  }
-
-  .navbar-product-name {
-    font-size: 15px;
-  }
-
-  .navbar-right {
-    gap: 7px;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
   }
 
   .navbar-connection {
-    padding: 5px;
-    border-radius: 9px;
+    min-height: 34px;
+    padding: 4px 7px;
+    border-radius: 8px;
   }
 
   .navbar-connection-icon {
-    width: 24px;
-    height: 24px;
-    flex-basis: 24px;
+    width: 25px;
+    height: 25px;
+    flex-basis: 25px;
   }
 
-  .datetime-time {
-    font-size: 10px;
+  .navbar-connection-status {
+    font-size: 9px;
+  }
+
+  .navbar-datetime {
+    display: none;
   }
 
   .navbar-logo-wrapper {
     width: 36px;
     height: 36px;
-    flex-basis: 36px;
-    border-radius: 9px;
+    border-radius: 8px;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .navbar,
-  .navbar-logo-wrapper,
+@media (max-width: 420px) {
+  .navbar {
+    height: 64px;
+  }
+
   .mobile-menu-btn {
-    transition: none;
+    width: 34px;
+    height: 34px;
+    margin-right: 7px;
+  }
+
+  .navbar-product-name {
+    font-size: 12px;
+  }
+
+  .navbar-connection-status span:last-child {
+    display: none;
+  }
+
+  .navbar-connection {
+    padding: 4px 6px;
+  }
+
+  .navbar-logo-wrapper {
+    width: 34px;
+    height: 34px;
   }
 }

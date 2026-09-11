@@ -79,6 +79,7 @@ const isValidDate = (value) => {
   }
 
   const date = value instanceof Date ? value : new Date(value);
+
   return !Number.isNaN(date.getTime());
 };
 
@@ -883,6 +884,627 @@ export const getThisMonthSent = async (
     top: MAX_MAIL_TOP,
   });
 };
+
+const normalizeEmailAddress = (value) => {
+  if (!value) {
+    return "";
+  }
+
+  if (typeof value === "string") {
+    return value.trim().toLowerCase();
+  }
+
+  return String(
+    value?.emailAddress?.address ||
+    value?.address ||
+    value?.email ||
+    value?.value ||
+    ""
+  )
+    .trim()
+    .toLowerCase();
+};
+
+const getEmailSenderAddress = (email) => {
+  return normalizeEmailAddress(
+    email?.from ||
+    email?.sender
+  );
+};
+
+const getEmailRecipientAddresses = (email) => {
+  const recipients = [
+    ...(Array.isArray(email?.toRecipients)
+      ? email.toRecipients
+      : []),
+    ...(Array.isArray(email?.ccRecipients)
+      ? email.ccRecipients
+      : []),
+    ...(Array.isArray(email?.bccRecipients)
+      ? email.bccRecipients
+      : []),
+  ];
+
+  return recipients
+    .map(normalizeEmailAddress)
+    .filter(Boolean);
+};
+
+const getMessageTimestamp = (email) => {
+  const value =
+    email?.receivedDateTime ||
+    email?.sentDateTime ||
+    email?.createdDateTime ||
+    null;
+
+  if (!value) {
+    return 0;
+  }
+
+  const timestamp =
+    new Date(value).getTime();
+
+  return Number.isFinite(timestamp)
+    ? timestamp
+    : 0;
+};
+
+const normalizeSubject = (subject) => {
+  return String(subject || "")
+    .replace(
+      /^\s*((re|fw|fwd)\s*:\s*)+/i,
+      ""
+    )
+    .trim()
+    .toLowerCase();
+};
+
+const getConversationKey = (email) => {
+  const conversationId =
+    String(
+      email?.conversationId ||
+      ""
+    ).trim();
+
+  if (conversationId) {
+    return `conversation:${conversationId}`;
+  }
+
+  const subject =
+    normalizeSubject(
+      email?.subject
+    );
+
+  if (subject) {
+    return `subject:${subject}`;
+  }
+
+  return `message:${email?.id || Math.random()}`;
+};
+
+const getCurrentUserAddresses = async () => {
+  const addresses = new Set();
+
+  try {
+    const account =
+      await getActiveAccount();
+
+    const accountAddress =
+      normalizeEmailAddress(
+        account?.username ||
+        account?.email ||
+        ""
+      );
+
+    if (accountAddress) {
+      addresses.add(
+        accountAddress
+      );
+    }
+  } catch (error) {
+    void error;
+  }
+
+  try {
+    const profile =
+      await getUserProfile();
+
+    const profileAddress =
+      normalizeEmailAddress(
+        profile?.mail ||
+        profile?.userPrincipalName ||
+        profile?.email ||
+        profile?.username ||
+        ""
+      );
+
+    if (profileAddress) {
+      addresses.add(
+        profileAddress
+      );
+    }
+  } catch (error) {
+    void error;
+  }
+
+  return addresses;
+};
+
+const isSentByCurrentUser = (
+  email,
+  currentUserAddresses
+) => {
+  const sender =
+    getEmailSenderAddress(
+      email
+    );
+
+  if (
+    sender &&
+    currentUserAddresses.has(sender)
+  ) {
+    return true;
+  }
+
+  const recipients =
+    getEmailRecipientAddresses(
+      email
+    );
+
+  const hasRecipient =
+    recipients.length > 0;
+
+  if (
+    hasRecipient &&
+    !email?.receivedDateTime &&
+    email?.sentDateTime
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
+const hasCompletionSignal = (email) => {
+  const text = [
+    email?.subject || "",
+    email?.bodyPreview || "",
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  const signals = [
+    "completed",
+    "complete",
+    "resolved",
+    "closed",
+    "done",
+    "finished",
+    "successfully completed",
+    "issue resolved",
+    "case closed",
+    "task completed",
+  ];
+
+  return signals.some(
+    (signal) =>
+      text.includes(signal)
+  );
+};
+
+const hasReplyRequestSignal = (email) => {
+  const text = [
+    email?.subject || "",
+    email?.bodyPreview || "",
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  const signals = [
+    "please reply",
+    "please respond",
+    "please confirm",
+    "kindly reply",
+    "kindly respond",
+    "need your response",
+    "awaiting your response",
+    "waiting for your response",
+    "let me know",
+    "your feedback",
+    "please advise",
+    "action required",
+    "response required",
+    "reply required",
+  ];
+
+  return signals.some(
+    (signal) =>
+      text.includes(signal)
+  );
+};
+
+const getWorkflowStatus = (
+  messages,
+  currentUserAddresses
+) => {
+  const list =
+    Array.isArray(messages)
+      ? [...messages]
+      : [];
+
+  if (list.length === 0) {
+    return "Complete";
+  }
+
+  list.sort(
+    (a, b) =>
+      getMessageTimestamp(a) -
+      getMessageTimestamp(b)
+  );
+
+  const explicitComplete =
+    list.some(
+      hasCompletionSignal
+    );
+
+  if (explicitComplete) {
+    return "Complete";
+  }
+
+  const latest =
+    list[list.length - 1];
+
+  const latestIsOutgoing =
+    isSentByCurrentUser(
+      latest,
+      currentUserAddresses
+    );
+
+  if (latestIsOutgoing) {
+    return "Pending Client";
+  }
+
+  const latestIsIncoming =
+    !latestIsOutgoing &&
+    Boolean(
+      latest?.receivedDateTime
+    );
+
+  if (latestIsIncoming) {
+    const highImportance =
+      String(
+        latest?.importance ||
+        ""
+      ).toLowerCase() ===
+      "high";
+
+    const replyRequired =
+      hasReplyRequestSignal(
+        latest
+      );
+
+    if (
+      highImportance ||
+      replyRequired
+    ) {
+      return "Priority";
+    }
+
+    return "Pending Self";
+  }
+
+  const hasIncoming =
+    list.some(
+      (message) =>
+        Boolean(
+          message?.receivedDateTime
+        )
+    );
+
+  const hasOutgoing =
+    list.some(
+      (message) =>
+        isSentByCurrentUser(
+          message,
+          currentUserAddresses
+        )
+    );
+
+  if (
+    hasIncoming &&
+    hasOutgoing
+  ) {
+    return "In Progress";
+  }
+
+  return "Complete";
+};
+
+export const getWorkflowMessages = async (
+  date = new Date()
+) => {
+  const todayRange =
+    getTodayRange(date);
+
+  const monthRange =
+    getCurrentMonthRange(date);
+
+  const [
+    todayInbox,
+    todaySent,
+    monthInbox,
+    monthSent,
+  ] = await Promise.all([
+    getInboxForRange({
+      ...todayRange,
+      top: MAX_MAIL_TOP,
+    }),
+    getSentForRange({
+      ...todayRange,
+      top: MAX_MAIL_TOP,
+    }),
+    getInboxForRange({
+      ...monthRange,
+      top: MAX_MAIL_TOP,
+    }),
+    getSentForRange({
+      ...monthRange,
+      top: MAX_MAIL_TOP,
+    }),
+  ]);
+
+  const combined = [
+    ...normalizeResponseArray(
+      monthInbox
+    ),
+    ...normalizeResponseArray(
+      monthSent
+    ),
+  ];
+
+  const unique =
+    new Map();
+
+  for (const message of combined) {
+    const id =
+      String(
+        message?.id ||
+        ""
+      ).trim();
+
+    if (!id) {
+      continue;
+    }
+
+    if (!unique.has(id)) {
+      unique.set(
+        id,
+        message
+      );
+    }
+  }
+
+  const history =
+    Array.from(
+      unique.values()
+    );
+
+  const currentUserAddresses =
+    await getCurrentUserAddresses();
+
+  const conversationMap =
+    new Map();
+
+  for (const message of history) {
+    const key =
+      getConversationKey(
+        message
+      );
+
+    if (!conversationMap.has(key)) {
+      conversationMap.set(
+        key,
+        []
+      );
+    }
+
+    conversationMap
+      .get(key)
+      .push(message);
+  }
+
+  const workflowByConversation =
+    new Map();
+
+  for (
+    const [
+      key,
+      messages,
+    ] of conversationMap
+  ) {
+    workflowByConversation.set(
+      key,
+      {
+        status:
+          getWorkflowStatus(
+            messages,
+            currentUserAddresses
+          ),
+        messages,
+      }
+    );
+  }
+
+  const todayMessages = [
+    ...normalizeResponseArray(
+      todayInbox
+    ),
+    ...normalizeResponseArray(
+      todaySent
+    ),
+  ];
+
+  const todayUnique =
+    new Map();
+
+  for (
+    const message of todayMessages
+  ) {
+    const id =
+      String(
+        message?.id ||
+        ""
+      ).trim();
+
+    if (!id) {
+      continue;
+    }
+
+    if (!todayUnique.has(id)) {
+      todayUnique.set(
+        id,
+        message
+      );
+    }
+  }
+
+  const workflowMessages =
+    Array.from(
+      todayUnique.values()
+    ).map(
+      (message) => {
+        const key =
+          getConversationKey(
+            message
+          );
+
+        const workflow =
+          workflowByConversation.get(
+            key
+          );
+
+        const sentByUser =
+          isSentByCurrentUser(
+            message,
+            currentUserAddresses
+          );
+
+        return {
+          ...message,
+          workflowStatus:
+            workflow?.status ||
+            "Complete",
+          isSentByCurrentUser:
+            sentByUser,
+          conversationKey:
+            key,
+        };
+      }
+    );
+
+  const statusCounts = {
+    "Pending Client": 0,
+    "Pending Self": 0,
+    "In Progress": 0,
+    Priority: 0,
+    Complete: 0,
+  };
+
+  const conversationStatusCounts = {
+    "Pending Client": 0,
+    "Pending Self": 0,
+    "In Progress": 0,
+    Priority: 0,
+    Complete: 0,
+  };
+
+  for (
+    const workflow of workflowByConversation.values()
+  ) {
+    const status =
+      workflow?.status;
+
+    if (
+      Object.prototype.hasOwnProperty.call(
+        conversationStatusCounts,
+        status
+      )
+    ) {
+      conversationStatusCounts[
+        status
+      ] += 1;
+    }
+  }
+
+  for (
+    const message of workflowMessages
+  ) {
+    const status =
+      message?.workflowStatus;
+
+    if (
+      Object.prototype.hasOwnProperty.call(
+        statusCounts,
+        status
+      )
+    ) {
+      statusCounts[
+        status
+      ] += 1;
+    }
+  }
+
+  return {
+    success: true,
+    date:
+      toDate(date).toISOString(),
+    todayInbox:
+      normalizeResponseArray(
+        todayInbox
+      ),
+    todaySent:
+      normalizeResponseArray(
+        todaySent
+      ),
+    monthInbox:
+      normalizeResponseArray(
+        monthInbox
+      ),
+    monthSent:
+      normalizeResponseArray(
+        monthSent
+      ),
+    messages:
+      workflowMessages,
+    workflowMessages,
+    conversations:
+      Array.from(
+        workflowByConversation.entries()
+      ).map(
+        ([conversationKey, value]) => ({
+          conversationKey,
+          status:
+            value.status,
+          messages:
+            value.messages,
+        })
+      ),
+    statusCounts,
+    conversationStatusCounts,
+    currentUserAddresses:
+      Array.from(
+        currentUserAddresses
+      ),
+    generatedAt:
+      new Date().toISOString(),
+  };
+};
+
+export const getDashboardWorkflowData =
+  getWorkflowMessages;
+
+export const getWorkflowData =
+  getWorkflowMessages;
 
 export const calculateEmailMetrics = (
   emails = []
@@ -1746,6 +2368,10 @@ const outlookApi = {
   getSentForRange,
   getTodaySent,
   getThisMonthSent,
+
+  getWorkflowMessages,
+  getDashboardWorkflowData,
+  getWorkflowData,
 
   calculateEmailMetrics,
 

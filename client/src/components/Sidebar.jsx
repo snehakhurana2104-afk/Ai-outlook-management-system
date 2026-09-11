@@ -27,6 +27,12 @@ const Sidebar = ({
         end: true
       },
       {
+        title: "Teams Report",
+        path: "/executive-intelligence/people",
+        icon: FaUsers,
+        end: true
+      },
+      {
         title: "Inbox",
         path: "/inbox",
         icon: FaInbox,
@@ -44,12 +50,12 @@ const Sidebar = ({
         icon: FaChartLine,
         end: true
       },
-      {
-        title: "Teams Report",
-        path: "/executive-intelligence/people",
-        icon: FaUsers,
-        end: true
-      },
+      // {
+      //   title: "Teams Members",
+      //   path: "/executive-intelligence/people",
+      //   icon: FaUsers,
+      //   end: true
+      // },
       {
         title: "Follow-up Tracker",
         path: "/executive-intelligence/commitments",
@@ -87,8 +93,6 @@ const Sidebar = ({
                 <div className="sidebar-brand-name">
                   SSDN Technologies
                 </div>
-
-               
               </div>
             )}
           </NavLink>
@@ -130,7 +134,7 @@ const Sidebar = ({
 
               return (
                 <NavLink
-                  key={item.path}
+                  key={item.title}
                   to={item.path}
                   end={item.end}
                   title={
@@ -161,7 +165,6 @@ const Sidebar = ({
           </div>
         </nav>
       </div>
-
     </aside>
   );
 };

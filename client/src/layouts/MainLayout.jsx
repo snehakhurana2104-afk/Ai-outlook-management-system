@@ -54,7 +54,6 @@ const MainLayout = ({ children }) => {
         sidebarCollapsed ? "sidebar-is-collapsed" : "",
       ].join(" ")}
     >
-      {/* Mobile backdrop */}
       {isMobile && sidebarOpen && (
         <div
           className="main-layout-overlay"
@@ -63,7 +62,6 @@ const MainLayout = ({ children }) => {
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={[
           "main-layout-sidebar",
@@ -81,7 +79,6 @@ const MainLayout = ({ children }) => {
         />
       </aside>
 
-      {/* Main application */}
       <div className="main-layout-main">
         <Navbar onMenuToggle={handleSidebarToggle} />
 

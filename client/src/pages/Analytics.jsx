@@ -4,8 +4,6 @@ import {
   getSentForRange,
   getTodayRange,
   getCurrentMonthRange,
-  calculateEmailMetrics,
-  calculateResponseRate,
 } from "../api/outlookApi";
 import "./Analytics.css";
 
@@ -55,6 +53,14 @@ const normalizeArray = (value) => {
 
   if (Array.isArray(value?.messages)) {
     return value.messages;
+  }
+
+  if (Array.isArray(value?.data)) {
+    return value.data;
+  }
+
+  if (Array.isArray(value?.items)) {
+    return value.items;
   }
 
   return [];
@@ -165,6 +171,7 @@ const Analytics = () => {
     } catch (loadError) {
       setReceivedEmails([]);
       setSentEmails([]);
+
       setError(
         loadError?.message ||
           "Unable to load Outlook analytics data."
@@ -178,37 +185,38 @@ const Analytics = () => {
     loadAnalytics();
   }, [loadAnalytics]);
 
+  /*
+   * Only the required email metrics are calculated here.
+   *
+   * Removed completely:
+   * - High Priority
+   * - Response Rate
+   * - Flagged
+   */
   const metrics = useMemo(() => {
-    const calculated = calculateEmailMetrics(receivedEmails);
+    const received = receivedEmails.length;
 
-    const received = Number(calculated?.totalEmails || 0);
-    const unread = Number(calculated?.unreadEmails || 0);
-    const highPriority = Number(
-      calculated?.highPriorityEmails || 0
-    );
-    const attachments = Number(
-      calculated?.attachmentEmails || 0
-    );
-    const flagged = Number(calculated?.flaggedEmails || 0);
+    const unread = receivedEmails.filter(
+      (email) => email?.isRead === false
+    ).length;
+
     const read = Math.max(received - unread, 0);
-    const sent = sentEmails.length;
-    const activity = received + sent;
 
-    const responseRate = calculateResponseRate({
-      received,
-      sent,
-    });
+    const attachments = receivedEmails.filter(
+      (email) => email?.hasAttachments === true
+    ).length;
+
+    const sent = sentEmails.length;
+
+    const activity = received + sent;
 
     return {
       received,
       sent,
       unread,
-      highPriority,
       read,
       attachments,
-      flagged,
       activity,
-      responseRate,
     };
   }, [receivedEmails, sentEmails]);
 
@@ -257,7 +265,6 @@ const Analytics = () => {
       return {
         readPercent: 0,
         unreadPercent: 0,
-        priorityPercent: 0,
         attachmentPercent: 0,
       };
     }
@@ -268,9 +275,6 @@ const Analytics = () => {
       ),
       unreadPercent: Math.round(
         (metrics.unread / total) * 100
-      ),
-      priorityPercent: Math.round(
-        (metrics.highPriority / total) * 100
       ),
       attachmentPercent: Math.round(
         (metrics.attachments / total) * 100
@@ -288,6 +292,13 @@ const Analytics = () => {
       (item) => item.key === selectedRange
     )?.label || "Today";
 
+  /*
+   * ONLY these 6 cards are displayed.
+   *
+   * Removed:
+   * - High Priority
+   * - Response Rate
+   */
   const cards = [
     {
       key: "received",
@@ -314,14 +325,6 @@ const Analytics = () => {
       tone: "orange",
     },
     {
-      key: "priority",
-      label: "High Priority",
-      value: metrics.highPriority,
-      detail: "Marked as important",
-      icon: "!",
-      tone: "red",
-    },
-    {
       key: "read",
       label: "Read",
       value: metrics.read,
@@ -336,15 +339,6 @@ const Analytics = () => {
       detail: "Emails with files",
       icon: "⌕",
       tone: "cyan",
-    },
-    {
-      key: "response",
-      label: "Response Rate",
-      value: `${metrics.responseRate}%`,
-      detail: "Sent vs received activity",
-      icon: "%",
-      tone: "purple",
-      isPercentage: true,
     },
     {
       key: "activity",
@@ -421,6 +415,7 @@ const Analytics = () => {
             >
               ↻
             </span>
+
             <span>
               {loading ? "Refreshing" : "Refresh"}
             </span>
@@ -429,10 +424,15 @@ const Analytics = () => {
 
         {error && (
           <section className="analytics-error">
-            <div className="analytics-error-icon">!</div>
+            <div className="analytics-error-icon">
+              !
+            </div>
 
             <div className="analytics-error-copy">
-              <strong>Unable to load analytics</strong>
+              <strong>
+                Unable to load analytics
+              </strong>
+
               <span>{error}</span>
             </div>
 
@@ -481,8 +481,6 @@ const Analytics = () => {
                 <div className="analytics-kpi-value">
                   {loading ? (
                     <span className="analytics-skeleton-value" />
-                  ) : card.isPercentage ? (
-                    card.value
                   ) : (
                     formatNumber(card.value)
                   )}
@@ -528,7 +526,11 @@ const Analytics = () => {
               <div
                 className="analytics-health-ring"
                 style={{
-                  "--health-progress": `${loading ? 0 : inboxHealth.readPercent * 3.6}deg`,
+                  "--health-progress": `${
+                    loading
+                      ? 0
+                      : inboxHealth.readPercent * 3.6
+                  }deg`,
                 }}
               >
                 <div className="analytics-health-ring-inner">
@@ -552,7 +554,9 @@ const Analytics = () => {
                   <strong>
                     {loading
                       ? "—"
-                      : `${formatNumber(metrics.read)} · ${inboxHealth.readPercent}%`}
+                      : `${formatNumber(
+                          metrics.read
+                        )} · ${inboxHealth.readPercent}%`}
                   </strong>
                 </div>
 
@@ -565,20 +569,9 @@ const Analytics = () => {
                   <strong>
                     {loading
                       ? "—"
-                      : `${formatNumber(metrics.unread)} · ${inboxHealth.unreadPercent}%`}
-                  </strong>
-                </div>
-
-                <div className="analytics-health-row">
-                  <div className="analytics-health-label">
-                    <span className="health-dot priority" />
-                    <span>High Priority</span>
-                  </div>
-
-                  <strong>
-                    {loading
-                      ? "—"
-                      : `${formatNumber(metrics.highPriority)} · ${inboxHealth.priorityPercent}%`}
+                      : `${formatNumber(
+                          metrics.unread
+                        )} · ${inboxHealth.unreadPercent}%`}
                   </strong>
                 </div>
 
@@ -591,7 +584,9 @@ const Analytics = () => {
                   <strong>
                     {loading
                       ? "—"
-                      : `${formatNumber(metrics.attachments)} · ${inboxHealth.attachmentPercent}%`}
+                      : `${formatNumber(
+                          metrics.attachments
+                        )} · ${inboxHealth.attachmentPercent}%`}
                   </strong>
                 </div>
               </div>
@@ -615,12 +610,14 @@ const Analytics = () => {
 
             {loading ? (
               <div className="analytics-sender-loading">
-                {Array.from({ length: 4 }).map((_, index) => (
-                  <div
-                    className="sender-skeleton"
-                    key={index}
-                  />
-                ))}
+                {Array.from({ length: 4 }).map(
+                  (_, index) => (
+                    <div
+                      className="sender-skeleton"
+                      key={index}
+                    />
+                  )
+                )}
               </div>
             ) : topSenders.length === 0 ? (
               <div className="analytics-empty-state">
@@ -628,11 +625,13 @@ const Analytics = () => {
                   ✉
                 </div>
 
-                <strong>No sender activity</strong>
+                <strong>
+                  No sender activity
+                </strong>
 
                 <span>
-                  No received Outlook emails were found for
-                  this period.
+                  No received Outlook emails were found
+                  for this period.
                 </span>
               </div>
             ) : (
@@ -653,7 +652,10 @@ const Analytics = () => {
                       key={sender.address}
                     >
                       <div className="analytics-sender-rank">
-                        {String(index + 1).padStart(2, "0")}
+                        {String(index + 1).padStart(
+                          2,
+                          "0"
+                        )}
                       </div>
 
                       <div className="analytics-sender-avatar">
@@ -661,16 +663,25 @@ const Analytics = () => {
                       </div>
 
                       <div className="analytics-sender-info">
-                        <strong>{sender.name}</strong>
-                        <span>{sender.address}</span>
+                        <strong>
+                          {sender.name}
+                        </strong>
+
+                        <span>
+                          {sender.address}
+                        </span>
                       </div>
 
                       <div className="analytics-sender-stats">
                         <strong>
-                          {formatNumber(sender.count)}
+                          {formatNumber(
+                            sender.count
+                          )}
                         </strong>
 
-                        <span>{percentage}%</span>
+                        <span>
+                          {percentage}%
+                        </span>
                       </div>
                     </div>
                   );

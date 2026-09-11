@@ -1,760 +1,615 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  FiArrowDownLeft,
-  FiArrowUpRight,
-  FiChevronRight,
-  FiMail,
-  FiMessageCircle,
-  FiRefreshCw,
-  FiUsers,
-  FiX,
-} from "react-icons/fi";
-
-import {
-  getInboxForRange,
-  getSentForRange,
-} from "../api/outlookApi";
-
+import React, { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Teams Report.css";
 
-const RANGE_OPTIONS = [
+const DEPARTMENTS = [
   {
-    key: "today",
-    label: "Today",
+    id: "solution",
+    name: "Solution Team",
+    subtitle: "Solutions & Client Support",
+    icon: "◈",
+    teams: [
+      {
+        id: "solution",
+        name: "Solution",
+        subtitle: "Solutions & Client Support",
+        icon: "◈",
+        members: [
+          {
+            name: "Piyush",
+            role: "Solution Executive",
+            status: "Active",
+          },
+          {
+            name: "Shubham",
+            role: "Solution Executive",
+            status: "Active",
+          },
+          {
+            name: "Tushar",
+            role: "Solution Executive",
+            status: "Active",
+          },
+        ],
+      },
+    ],
   },
+
   {
-    key: "month",
-    label: "This Month",
+    id: "achievers",
+    name: "Achievers Team",
+    subtitle: "Sales & Operations",
+    icon: "★",
+    teams: [
+      {
+        id: "sales",
+        name: "Sales",
+        subtitle: "Sales & Client Relations",
+        icon: "↗",
+        members: [
+          {
+            name: "Mukesh",
+            role: "Sales Executive",
+            status: "Active",
+          },
+          {
+            name: "Sristi",
+            role: "Sales Executive",
+            status: "Active",
+          },
+          {
+            name: "Kamal",
+            role: "Business Development",
+            status: "Active",
+          },
+          {
+            name: "Amit",
+            role: "Sales Executive",
+            status: "Active",
+          },
+        ],
+      },
+
+      {
+        id: "operations",
+        name: "Operations",
+        subtitle: "Operations & Delivery",
+        icon: "◆",
+        members: [
+          {
+            name: "Kanika",
+            role: "Operations Executive",
+            status: "Active",
+          },
+          {
+            name: "Tisha",
+            role: "Operations Executive",
+            status: "Active",
+          },
+          {
+            name: "Shivam",
+            role: "Operations Executive",
+            status: "Active",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    id: "hr",
+    name: "HR Team",
+    subtitle: "People & Human Resources",
+    icon: "●",
+  },
+
+  {
+    id: "dm",
+    name: "DM Team",
+    subtitle: "Digital Marketing",
+    icon: "◇",
+  },
+
+  {
+    id: "elite",
+    name: "Elite Team",
+    subtitle: "Strategy & Key Accounts",
+    icon: "✦",
   },
 ];
 
-function getList(data) {
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data?.value)) return data.value;
-  if (Array.isArray(data?.data)) return data.data;
-  if (Array.isArray(data?.emails)) return data.emails;
-  if (Array.isArray(data?.messages)) return data.messages;
-  if (Array.isArray(data?.items)) return data.items;
-  return [];
-}
+const TeamsReport = () => {
+  const navigate = useNavigate();
 
-function getSenderEmail(email) {
-  return (
-    email?.from?.emailAddress?.address ||
-    email?.sender?.emailAddress?.address ||
-    email?.fromEmail ||
-    ""
-  )
-    .trim()
-    .toLowerCase();
-}
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [selectedTeam, setSelectedTeam] = useState(null);
 
-function getSenderName(email) {
-  return (
-    email?.from?.emailAddress?.name ||
-    email?.sender?.emailAddress?.name ||
-    email?.fromName ||
-    getSenderEmail(email) ||
-    "Unknown Person"
-  ).trim();
-}
-
-function getReceiverEmail(email) {
-  return (
-    email?.toRecipients?.[0]?.emailAddress?.address ||
-    email?.to?.[0]?.emailAddress?.address ||
-    email?.toEmail ||
-    ""
-  )
-    .trim()
-    .toLowerCase();
-}
-
-function getReceiverName(email) {
-  return (
-    email?.toRecipients?.[0]?.emailAddress?.name ||
-    email?.to?.[0]?.emailAddress?.name ||
-    email?.toName ||
-    getReceiverEmail(email) ||
-    "Unknown Person"
-  ).trim();
-}
-
-function getEmailDate(email, type) {
-  if (type === "sent") {
-    return (
-      email?.sentDateTime ||
-      email?.createdDateTime ||
-      email?.date ||
-      email?.receivedDateTime ||
-      null
+  const selectedDepartmentData = useMemo(() => {
+    return DEPARTMENTS.find(
+      (department) => department.id === selectedDepartment
     );
-  }
+  }, [selectedDepartment]);
 
-  return (
-    email?.receivedDateTime ||
-    email?.createdDateTime ||
-    email?.date ||
-    null
-  );
-}
+  const selectedTeamData = useMemo(() => {
+    return selectedDepartmentData?.teams?.find(
+      (team) => team.id === selectedTeam
+    );
+  }, [selectedDepartmentData, selectedTeam]);
 
-function getSubject(email) {
-  return email?.subject || "No subject";
-}
+  const totalOrganizationTeams = useMemo(() => {
+    return DEPARTMENTS.reduce(
+      (total, department) =>
+        total + (department.teams?.length || 0),
+      0
+    );
+  }, []);
 
-function getInitials(name) {
-  const parts = String(name || "")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
+  const totalOrganizationMembers = useMemo(() => {
+    return DEPARTMENTS.reduce((total, department) => {
+      if (!department.teams) {
+        return total;
+      }
 
-  if (!parts.length) return "P";
-
-  if (parts.length === 1) {
-    return parts[0].slice(0, 2).toUpperCase();
-  }
-
-  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
-}
-
-function formatDate(value) {
-  if (!value) return "No activity";
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "No activity";
-  }
-
-  return date.toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    timeZone: "Asia/Kolkata",
-  });
-}
-
-function formatTime(value) {
-  if (!value) return "";
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
-
-  return date.toLocaleTimeString("en-IN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-    timeZone: "Asia/Kolkata",
-  });
-}
-
-function getRangeDates(range) {
-  const now = new Date();
-  const start = new Date(now);
-
-  if (range === "today") {
-    start.setHours(0, 0, 0, 0);
-  } else {
-    start.setDate(1);
-    start.setHours(0, 0, 0, 0);
-  }
-
-  return {
-    startDateTime: start.toISOString(),
-    endDateTime: now.toISOString(),
-  };
-}
-
-function createPeople(inbox, sent) {
-  const map = new Map();
-
-  inbox.forEach((email) => {
-    const address = getSenderEmail(email);
-
-    if (!address) return;
-
-    if (!map.has(address)) {
-      map.set(address, {
-        email: address,
-        name: getSenderName(email),
-        incoming: 0,
-        outgoing: 0,
-        lastActivity: null,
-        messages: [],
-      });
-    }
-
-    const person = map.get(address);
-    const date = getEmailDate(email, "received");
-
-    person.incoming += 1;
-
-    person.messages.push({
-      type: "incoming",
-      subject: getSubject(email),
-      date,
-    });
-
-    if (
-      date &&
-      (!person.lastActivity ||
-        new Date(date).getTime() >
-          new Date(person.lastActivity).getTime())
-    ) {
-      person.lastActivity = date;
-    }
-  });
-
-  sent.forEach((email) => {
-    const address = getReceiverEmail(email);
-
-    if (!address) return;
-
-    if (!map.has(address)) {
-      map.set(address, {
-        email: address,
-        name: getReceiverName(email),
-        incoming: 0,
-        outgoing: 0,
-        lastActivity: null,
-        messages: [],
-      });
-    }
-
-    const person = map.get(address);
-    const date = getEmailDate(email, "sent");
-
-    person.outgoing += 1;
-
-    person.messages.push({
-      type: "outgoing",
-      subject: getSubject(email),
-      date,
-    });
-
-    if (
-      date &&
-      (!person.lastActivity ||
-        new Date(date).getTime() >
-          new Date(person.lastActivity).getTime())
-    ) {
-      person.lastActivity = date;
-    }
-  });
-
-  return Array.from(map.values())
-    .map((person) => {
-      const messages = person.messages
-        .filter((item) => item.date)
-        .sort(
-          (a, b) =>
-            new Date(b.date).getTime() -
-            new Date(a.date).getTime()
+      return (
+        total +
+        department.teams.reduce(
+          (teamTotal, team) =>
+            teamTotal + team.members.length,
+          0
         )
-        .slice(0, 10);
-
-      return {
-        ...person,
-        total: person.incoming + person.outgoing,
-        messages,
-      };
-    })
-    .sort((a, b) => {
-      const activityDifference =
-        new Date(b.lastActivity || 0).getTime() -
-        new Date(a.lastActivity || 0).getTime();
-
-      if (activityDifference !== 0) {
-        return activityDifference;
-      }
-
-      return b.total - a.total;
-    });
-}
-
-function TeamsReport() {
-  const [range, setRange] = useState("today");
-  const [people, setPeople] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState("");
-  const [selectedPerson, setSelectedPerson] = useState(null);
-
-  async function loadReport(selectedRange = range, refresh = false) {
-    try {
-      setError("");
-
-      if (refresh) {
-        setRefreshing(true);
-      } else {
-        setLoading(true);
-      }
-
-      const {
-        startDateTime,
-        endDateTime,
-      } = getRangeDates(selectedRange);
-
-      const [inboxResult, sentResult] = await Promise.all([
-        getInboxForRange({
-          startDateTime,
-          endDateTime,
-        }),
-        getSentForRange({
-          startDateTime,
-          endDateTime,
-        }),
-      ]);
-
-      const inbox = getList(inboxResult);
-      const sent = getList(sentResult);
-
-      const result = createPeople(inbox, sent);
-
-      setPeople(result);
-    } catch (err) {
-      setPeople([]);
-      setError(
-        err?.message ||
-          "Unable to load real Outlook people data."
       );
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }
+    }, 0);
+  }, []);
 
-  useEffect(() => {
-    loadReport(range);
-  }, [range]);
+  const departmentMemberCount = selectedDepartmentData?.teams
+    ? selectedDepartmentData.teams.reduce(
+        (total, team) =>
+          total + team.members.length,
+        0
+      )
+    : 0;
 
-  const stats = useMemo(() => {
-    const received = people.reduce(
-      (sum, person) => sum + person.incoming,
-      0
+  const handleDepartmentSelect = (departmentId) => {
+    setSelectedDepartment(departmentId);
+    setSelectedTeam(null);
+  };
+
+  const handleTeamSelect = (teamId) => {
+    setSelectedTeam((current) =>
+      current === teamId ? null : teamId
     );
+  };
 
-    const sent = people.reduce(
-      (sum, person) => sum + person.outgoing,
-      0
+  const handleBackToDepartments = () => {
+    setSelectedDepartment(null);
+    setSelectedTeam(null);
+  };
+
+  const handleMemberClick = (member) => {
+    const memberPath = encodeURIComponent(member.name);
+
+    navigate(
+      `/executive-intelligence/member/${memberPath}`
     );
-
-    return {
-      people: people.length,
-      received,
-      sent,
-      total: received + sent,
-    };
-  }, [people]);
-
-  const periodLabel =
-    range === "today"
-      ? "Today's Outlook activity"
-      : "This month's Outlook activity";
+  };
 
   return (
     <div className="teams-report-page">
       <div className="teams-report-container">
 
-        <header className="teams-report-header">
-          <div>
-            <div className="teams-report-eyebrow">
-              EXECUTIVE INTELLIGENCE
-            </div>
+        {!selectedDepartmentData && (
+          <section className="department-selection-screen">
 
-            <h1>Teams Report</h1>
+            <div className="selection-header">
 
-            <p>
-              Monitor people and communication activity across
-              your connected Microsoft 365 workspace.
-            </p>
-          </div>
+              
 
-          <button
-            type="button"
-            className="teams-refresh-button"
-            onClick={() => loadReport(range, true)}
-            disabled={refreshing}
-          >
-            <FiRefreshCw
-              className={refreshing ? "teams-spin" : ""}
-            />
-            {refreshing ? "Refreshing..." : "Refresh"}
-          </button>
-        </header>
-
-        <section className="teams-period-card">
-          <div className="teams-period-information">
-            <span>REPORT PERIOD</span>
-            <strong>{periodLabel}</strong>
-          </div>
-
-          <div className="teams-range-tabs">
-            {RANGE_OPTIONS.map((option) => (
-              <button
-                key={option.key}
-                type="button"
-                className={
-                  range === option.key ? "active" : ""
-                }
-                onClick={() => {
-                  setRange(option.key);
-                  setSelectedPerson(null);
-                }}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {error && (
-          <div className="teams-error">
-            <div>
-              <strong>Unable to load Outlook data</strong>
-              <span>{error}</span>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => loadReport(range, true)}
-            >
-              Try again
-            </button>
-          </div>
-        )}
-
-        <section className="teams-summary-grid">
-
-          <div className="teams-summary-card">
-            <div className="teams-summary-icon blue">
-              <FiUsers />
-            </div>
-
-            <div>
-              <span>People</span>
-              <strong>{stats.people}</strong>
-              <small>
-                Active Outlook contacts
-              </small>
-            </div>
-          </div>
-
-          <div className="teams-summary-card">
-            <div className="teams-summary-icon green">
-              <FiArrowDownLeft />
-            </div>
-
-            <div>
-              <span>Received</span>
-              <strong>{stats.received}</strong>
-              <small>
-                Incoming messages
-              </small>
-            </div>
-          </div>
-
-          <div className="teams-summary-card">
-            <div className="teams-summary-icon purple">
-              <FiArrowUpRight />
-            </div>
-
-            <div>
-              <span>Sent</span>
-              <strong>{stats.sent}</strong>
-              <small>
-                Outgoing messages
-              </small>
-            </div>
-          </div>
-
-          <div className="teams-summary-card">
-            <div className="teams-summary-icon amber">
-              <FiMail />
-            </div>
-
-            <div>
-              <span>Total Activity</span>
-              <strong>{stats.total}</strong>
-              <small>
-                Incoming + outgoing
-              </small>
-            </div>
-          </div>
-
-        </section>
-
-        <section className="teams-directory-card">
-
-          <div className="teams-directory-header">
-            <div>
-              <span>TEAM DIRECTORY</span>
-
-              <h2>People & Relationships</h2>
+              <h1>
+                Which department are you from?
+              </h1>
 
               <p>
-                People below are automatically derived from your
-                real Outlook email communication.
+                Select your department to continue to your
+                team and member information.
               </p>
+
             </div>
 
-            <div className="teams-people-count">
-              {stats.people}{" "}
-              {stats.people === 1 ? "person" : "people"}
-            </div>
-          </div>
+            <div className="selection-stats">
 
-          {loading ? (
-            <div className="teams-loading">
-              <div className="teams-loader" />
+              <div className="selection-stat">
+                <span>DEPARTMENTS</span>
 
-              <strong>
-                Loading real Outlook people...
-              </strong>
-
-              <span>
-                Reading connected Microsoft 365 communication.
-              </span>
-            </div>
-          ) : people.length === 0 ? (
-            <div className="teams-empty">
-              <div className="teams-empty-icon">
-                <FiUsers />
+                <strong>
+                  {String(DEPARTMENTS.length).padStart(2, "0")}
+                </strong>
               </div>
 
-              <h3>No Outlook people found</h3>
+              <div className="selection-stat-divider" />
 
-              <p>
-                No email communication was found for the
-                selected period.
-              </p>
+              <div className="selection-stat">
+                <span>ACTIVE TEAMS</span>
 
-              <button
-                type="button"
-                onClick={() => loadReport(range, true)}
-              >
-                Refresh Outlook Data
-              </button>
+                <strong>
+                  {totalOrganizationTeams}
+                </strong>
+              </div>
+
+              <div className="selection-stat-divider" />
+
+              <div className="selection-stat">
+                <span>MEMBERS</span>
+
+                <strong>
+                  {totalOrganizationMembers}
+                </strong>
+              </div>
+
             </div>
-          ) : (
-            <div className="teams-people-grid">
-              {people.map((person) => (
+
+            <div className="department-selection-grid">
+
+              {DEPARTMENTS.map((department) => (
                 <button
+                  key={department.id}
                   type="button"
-                  key={person.email}
-                  className="teams-person-card"
+                  className="department-selection-card"
                   onClick={() =>
-                    setSelectedPerson(person)
+                    handleDepartmentSelect(department.id)
                   }
                 >
-                  <div className="teams-person-top">
-                    <div className="teams-person-avatar">
-                      {getInitials(person.name)}
+
+                  <div className="selection-card-top">
+
+                    <div className="selection-department-icon">
+                      {department.icon}
                     </div>
 
-                    <div className="teams-person-open">
-                      <FiChevronRight />
-                    </div>
-                  </div>
-
-                  <div className="teams-person-info">
-                    <h3>{person.name}</h3>
-
-                    <p>{person.email}</p>
-                  </div>
-
-                  <div className="teams-person-metrics">
-
-                    <div>
-                      <FiArrowDownLeft />
-                      <strong>{person.incoming}</strong>
-                      <span>Received</span>
-                    </div>
-
-                    <div>
-                      <FiArrowUpRight />
-                      <strong>{person.outgoing}</strong>
-                      <span>Sent</span>
-                    </div>
-
-                    <div>
-                      <FiMessageCircle />
-                      <strong>{person.total}</strong>
-                      <span>Total</span>
-                    </div>
+                    <span className="selection-arrow">
+                      →
+                    </span>
 
                   </div>
 
-                  <div className="teams-person-footer">
+                  <div className="selection-card-content">
+
+                    <span className="selection-card-label">
+                      DEPARTMENT
+                    </span>
+
+                    <h2>
+                      {department.name}
+                    </h2>
+
+                    <p>
+                      {department.subtitle}
+                    </p>
+
+                  </div>
+
+                  <div className="selection-card-bottom">
+
                     <span>
-                      Last activity{" "}
-                      {formatDate(person.lastActivity)}
+                      {department.teams
+                        ? `${department.teams.length} Teams`
+                        : "Department"}
                     </span>
 
                     <span>
-                      {formatTime(person.lastActivity)}
+                      Select →
                     </span>
+
                   </div>
+
                 </button>
               ))}
+
             </div>
-          )}
 
-        </section>
+            <div className="department-selection-note">
 
-        {selectedPerson && (
-          <div
-            className="teams-modal-overlay"
-            onClick={() => setSelectedPerson(null)}
-          >
-            <div
-              className="teams-modal"
-              onClick={(event) =>
-                event.stopPropagation()
-              }
-            >
-              <button
-                type="button"
-                className="teams-modal-close"
-                onClick={() =>
-                  setSelectedPerson(null)
-                }
-              >
-                <FiX />
-              </button>
+              <span className="note-icon">
+                +
+              </span>
 
-              <div className="teams-modal-profile">
+              <span>
+                Choose your department to continue
+              </span>
 
-                <div className="teams-modal-avatar">
-                  {getInitials(selectedPerson.name)}
+            </div>
+
+          </section>
+        )}
+
+        {selectedDepartmentData && (
+          <section className="department-workspace">
+
+            <div className="workspace-header">
+
+              <div className="workspace-header-left">
+
+                <button
+                  type="button"
+                  className="back-department-button"
+                  onClick={handleBackToDepartments}
+                >
+                  ← Departments
+                </button>
+
+                <div className="workspace-eyebrow">
+                  SELECTED DEPARTMENT
                 </div>
 
-                <div>
-                  <span>PERSON PROFILE</span>
+                <h1>
+                  {selectedDepartmentData.name}
+                </h1>
 
-                  <h2>
-                    {selectedPerson.name}
-                  </h2>
-
-                  <p>
-                    {selectedPerson.email}
-                  </p>
-                </div>
+                <p>
+                  {selectedDepartmentData.subtitle}
+                </p>
 
               </div>
 
-              <div className="teams-modal-stats">
+              <div className="workspace-summary">
 
                 <div>
-                  <span>Received</span>
+                  <span>TEAMS</span>
+
                   <strong>
-                    {selectedPerson.incoming}
+                    {selectedDepartmentData.teams?.length || 0}
                   </strong>
                 </div>
 
                 <div>
-                  <span>Sent</span>
-                  <strong>
-                    {selectedPerson.outgoing}
-                  </strong>
-                </div>
+                  <span>MEMBERS</span>
 
-                <div>
-                  <span>Total</span>
                   <strong>
-                    {selectedPerson.total}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>Last Activity</span>
-                  <strong>
-                    {formatDate(
-                      selectedPerson.lastActivity
-                    )}
+                    {departmentMemberCount}
                   </strong>
                 </div>
 
               </div>
 
-              <div className="teams-recent-section">
+            </div>
 
-                <div className="teams-recent-heading">
+            {selectedDepartmentData.teams ? (
+              <>
+
+                <div className="workspace-section-heading">
+
                   <div>
+
                     <span>
-                      OUTLOOK COMMUNICATION
+                      SELECT TEAM
                     </span>
 
-                    <h3>
-                      Recent activity
-                    </h3>
+                    <h2>
+                      Choose your team
+                    </h2>
+
                   </div>
 
-                  <small>
-                    {selectedPerson.messages.length} messages
-                  </small>
+                  <p>
+                    Select a team to view its members.
+                  </p>
+
                 </div>
 
-                {selectedPerson.messages.length === 0 ? (
-                  <div className="teams-no-messages">
-                    No recent communication.
-                  </div>
-                ) : (
-                  <div className="teams-message-list">
-                    {selectedPerson.messages.map(
-                      (message, index) => (
-                        <div
-                          className="teams-message-item"
-                          key={`${message.date}-${index}`}
-                        >
-                          <div
-                            className={
-                              message.type === "incoming"
-                                ? "teams-message-icon incoming"
-                                : "teams-message-icon outgoing"
+                <div className="workspace-team-grid">
+
+                  {selectedDepartmentData.teams.map((team) => {
+
+                    const isSelected =
+                      selectedTeam === team.id;
+
+                    const activeMembers =
+                      team.members.filter(
+                        (member) =>
+                          member.status === "Active"
+                      ).length;
+
+                    return (
+                      <button
+                        key={team.id}
+                        type="button"
+                        className={`workspace-team-card ${
+                          isSelected ? "selected" : ""
+                        }`}
+                        onClick={() =>
+                          handleTeamSelect(team.id)
+                        }
+                      >
+
+                        <div className="workspace-team-top">
+
+                          <div className="workspace-team-icon">
+                            {team.icon}
+                          </div>
+
+                          <span
+                            className={`workspace-team-arrow ${
+                              isSelected ? "open" : ""
+                            }`}
+                          >
+                            →
+                          </span>
+
+                        </div>
+
+                        <div className="workspace-team-content">
+
+                          <span>
+                            TEAM
+                          </span>
+
+                          <h3>
+                            {team.name}
+                          </h3>
+
+                          <p>
+                            {team.subtitle}
+                          </p>
+
+                        </div>
+
+                        <div className="workspace-team-footer">
+
+                          <span>
+                            {team.members.length} Members
+                          </span>
+
+                          <span className="team-active">
+
+                            <i />
+
+                            {activeMembers} Active
+
+                          </span>
+
+                          <strong>
+                            {isSelected
+                              ? "Hide Members"
+                              : "View Members"}
+                          </strong>
+
+                        </div>
+
+                      </button>
+                    );
+                  })}
+
+                </div>
+
+                {selectedTeamData && (
+                  <div className="team-members-workspace">
+
+                    <div className="members-workspace-header">
+
+                      <div>
+
+                        <span>
+                          {selectedTeamData.name.toUpperCase()}
+                        </span>
+
+                        <h2>
+                          Team Members
+                        </h2>
+
+                        <p>
+                          Select a member to open their
+                          Executive Intelligence report.
+                        </p>
+
+                      </div>
+
+                      <button
+                        type="button"
+                        className="close-team-button"
+                        onClick={() =>
+                          setSelectedTeam(null)
+                        }
+                        aria-label="Close team members"
+                      >
+                        ×
+                      </button>
+
+                    </div>
+
+                    <div className="member-list">
+
+                      {selectedTeamData.members.map(
+                        (member, index) => (
+                          <button
+                            key={member.name}
+                            type="button"
+                            className="member-row"
+                            onClick={() =>
+                              handleMemberClick(member)
                             }
                           >
-                            {message.type === "incoming" ? (
-                              <FiArrowDownLeft />
-                            ) : (
-                              <FiArrowUpRight />
-                            )}
-                          </div>
 
-                          <div className="teams-message-content">
-                            <strong>
-                              {message.subject}
-                            </strong>
+                            <div className="member-index">
+                              {String(index + 1).padStart(
+                                2,
+                                "0"
+                              )}
+                            </div>
 
-                            <span>
-                              {message.type === "incoming"
-                                ? "Received"
-                                : "Sent"}
-                              {" · "}
-                              {formatDate(message.date)}
-                              {" · "}
-                              {formatTime(message.date)}
-                            </span>
-                          </div>
-                        </div>
-                      )
-                    )}
+                            <div className="member-avatar">
+                              {member.name.charAt(0)}
+                            </div>
+
+                            <div className="member-details">
+
+                              <h3>
+                                {member.name}
+                              </h3>
+
+                              <p>
+                                {member.role}
+                              </p>
+
+                            </div>
+
+                            <div className="member-status">
+
+                              <span className="status-dot" />
+
+                              {member.status}
+
+                            </div>
+
+                            <div className="member-action">
+                              View Report →
+                            </div>
+
+                          </button>
+                        )
+                      )}
+
+                    </div>
+
                   </div>
                 )}
 
-              </div>
+              </>
+            ) : (
 
-            </div>
-          </div>
+              <div className="department-empty-state">
+
+                <div className="department-empty-icon">
+                  {selectedDepartmentData.icon}
+                </div>
+
+                <span>
+                  DEPARTMENT SELECTED
+                </span>
+
+                <h2>
+                  {selectedDepartmentData.name}
+                </h2>
+
+                <p>
+                  Team and member details for this department
+                  can be added here.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={handleBackToDepartments}
+                >
+                  ← Choose Another Department
+                </button>
+
+              </div>
+            )}
+
+          </section>
         )}
 
       </div>
     </div>
   );
-}
+};
 
 export default TeamsReport;
